@@ -13,5 +13,5 @@ class Expend(FlaskForm):
     amount = FloatField(validators=[DataRequired()])
     category_choices = [('Category', 'Category'), ('Placeholder1', 'Placeholder1')]
     category = SelectField(u'Month', choices = category_choices, coerce=str, default = 'Category')
-    note = StringField('Notes?')
+    note = StringField()
     submit = SubmitField('Submit Expense')

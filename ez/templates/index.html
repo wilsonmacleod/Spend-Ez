@@ -373,7 +373,6 @@
                   {{ form.hidden_tag() }}
                   <fieldset class="form-group">
                       <div class="form-group">
-                          {{ form.amount.label(class="form-control-label") }}
                           {% if form.amount.errors %}
                               {{ form.amount(class="form-control form-control-sm is-invalid") }}
                               <div class="invalid-feedback">
@@ -385,18 +384,14 @@
                               {{ form.amount(class="form-control form-control-sm") }}
                           {% endif %}
                       </div>
+                            {{ form.note(class="form-control form-control-lg", placeholder="Notes", rows="3") }}
+                      <p></p>
                       <p>
-                      {{ form.category }}
-                    </p>
-                      <div>
-                        <p>
-                        {{ form.note }}
-                      </p> 
-                      </div>
-                  </fieldset>
-                  <div class="form-group">
+                          {{ form.category }}
+                        </p>
                       {{ form.submit(class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-s") }}
                   </div>
+                </fieldset>
                 </form>
               </div>
           
