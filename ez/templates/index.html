@@ -383,12 +383,14 @@
                           {% else %}
                               {{ form.amount(class="form-control form-control-sm") }}
                           {% endif %}
-                      </div>
-                            {{ form.note(class="form-control form-control-lg", placeholder="Notes", rows="3") }}
-                      <p></p>
                       <p>
-                          {{ form.category }}
                         </p>
+                          {{ form.category }}
+                          <p>
+                            </p>
+                    </div>
+                    {{ form.note(class="form-control form-control-lg", placeholder="Notes", rows="3") }}
+                  <p></p>
                       {{ form.submit(class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-s") }}
                   </div>
                 </fieldset>

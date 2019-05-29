@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect
 from ez import app
 from ez.forms import LoginForm, Expend
-from ez.models import User, Post
+from ez.models import User, Transactions
 
 trans = [
     {
