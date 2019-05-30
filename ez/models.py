@@ -15,8 +15,8 @@ class Transactions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable = False)
-    note = db.Column(db.Text, nullable=True)
     cat = db.Column(db.Text, nullable=False)
+    note = db.Column(db.Text, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
