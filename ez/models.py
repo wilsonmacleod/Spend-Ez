@@ -39,6 +39,34 @@ class Transactions(db.Model):
             if post.month == month_num and post.year == year:
                 month_trans.append(each)
         return month_trans
+    
+    def ytd_transactions(user, year):
+        
+        trans = user.trans
+        ytd = []
+        sort_dict = {'Food': 0, 'Travel': 0, 'Entertainment': 0, 'Education': 0,
+                    'Transportation': 0, 'Personal': 0, 'Health': 0, 
+                    'Gift': 0, 'Other': 0}
+        for each in trans:
+            post = each.date_posted
+            if post.year == year:
+                ytd.append(each)
+                sort_dict[each.cat] += each.amount
+        max_cat = max(sort_dict.items(), key=lambda k: k[1])
+        return round(sum([x.amount for x in ytd]),2), max_cat
+
+    def plot_gen(user, month_num, year):
+        month_trans = Transactions.month_transactions(user, month_num, year)
+        
+        sort_dict = {'Food': 0, 'Travel': 0, 'Entertainment': 0, 'Education': 0,
+                    'Transportation': 0, 'Personal': 0, 'Health': 0, 
+                    'Gift': 0, 'Other': 0}
+        for trans in month_trans:
+            sort_dict[str(trans.cat)] += trans.amount
+        labels = [i for i in sort_dict]
+        values = [i for x,i in sort_dict.items()]
+        return labels, values
+
 
 class General():
 
@@ -53,3 +81,9 @@ class General():
         month_num = today.month
         return month_dict[str(month_num)], month_num, today.year
 
+    def month_translate(month_num):
+        month_dict = {'1': 'January', '2': 'Feburary', '3': 'March', '4': 'April', 
+                    '5': 'May', '6': 'June', '7': 'July',
+                    '8': 'August', '9': 'September', 
+                    '10': 'October', '11': 'November', '12': 'December'}
+        return month_dict[str(month_num)]

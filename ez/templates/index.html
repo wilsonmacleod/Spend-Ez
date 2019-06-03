@@ -32,11 +32,11 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('landing')}}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3"><h2>Spend EZ</h2></div>
+        <div class="sidebar-brand-text mt-3"><h2>Spend EZ</h2></div>
       </a>
       <!-- Divider -->
       <hr class="sidebar-divider my-1">
@@ -44,54 +44,29 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-       <h5> Choose A Time </h5>
+       <h5> Choose Date </h5>
       </div>
       <!-- Divider -->
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
+      <form action="" method="POST">
+          {{time_travel.hidden_tag()}}
         <div>
-            <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-          {{ time_travel.t19 }} 
-            </form>
-        </div>
-      <!-- Nav Item - Pages Collapse Menu -->
-        <div>
-            <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-          {{ time_travel.t20 }} 
-            </form>
-        </div>
-   <!-- Nav Item - Pages Collapse Menu -->
-      <div>
-        <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-      {{ time_travel.t21 }} 
-        </form>
-      </div>
-     <!-- Nav Item - Pages Collapse Menu -->
-     <div>
-        <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-            {{ time_travel.t22 }}
-        </form>
-      </div>
-        <!-- Nav Item - Pages Collapse Menu -->
-        <div>
-            <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-           {{ time_travel.t23 }} 
-            </form>
-          </div>
-        <!-- Nav Item - Pages Collapse Menu -->
-        <div>
-            <form class="form-group sidebar-brand-text mx-3 action" method="post" name="months">
-           {{ time_travel.t24 }} 
-          </div>
-          <div>
-            {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow mx-3 mb-2") }}
-          </div>
+          {{ time_travel.years(class="form-group sidebar-brand-text mx-3 action") }} 
+          {{ time_travel.months(class="form-group sidebar-brand-text mx-3 action") }} 
+          {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow mx-3") }}
         </form>
               </li>
-
-            <hr class="sidebar-divider my-1">
-            
-            <div>
+              <div class="sidebar-heading">
+                  <a href="{{ url_for('landing')}}">
+                  <div><small style="color:white">Click Here for Today</small></a>
+                  </div>
+              <hr class="sidebar-divider">
+              <div class="sidebar-heading">
+                  <h5> Submit Expense </h5>
+                 </div>
+                 <!-- Divider -->
+                 <hr class="sidebar-divider">
               <form class = "form-group sidebar-brand-text mx-3 action" method= "POST" action="">
                   {{ transaction_submit.hidden_tag() }}
                       <div class="form-group">
@@ -103,25 +78,24 @@
                                   {% endfor %}
                               </div>
                           {% else %}
-                              {{ transaction_submit.amount(class="form-control form-control-sm") }}
+                              {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
                           {% endif %}
                       <p>
                         </p>
-                          {{ transaction_submit.category(class = "form-group sidebar-brand-text mx-1 action") }}
-                          <p>
-                            </p>
+                          {{ transaction_submit.category(class = "form-control form-control-sm mt-3") }}
+                           {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
                     </div>
-                    {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes", rows="3") }}
+                    {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
                   <p></p>
                      {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow") }}
                 </form>
               </div>
               <hr class="sidebar-divider my-1">
               
-            <li class="nav-item active">
+            <li class="nav-item active mt-5">
                 <a class="nav-link" href="{{ url_for('logout')}}">
                   <i class="fas fa-fw fa-tachometer-alt "></i>
-                  <button class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow" href = "{{ url_for('logout')}}"><h5><strong>Logout</strong></h5></button>
+                  <button class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow" href = "{{ url_for('logout')}}">Logout</button>
               </li>
             </ul>
     <!-- End of Sidebar -->
@@ -170,18 +144,22 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-2">
            <h1 class="h3 mt-1 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
           </div>
-
+          {% block content %}{% endblock %}
           <!-- Content Row -->
           <div class="row">
-
-            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Budget</div>
+                      <div class="text-sm font-weight-bold text-primary text-uppercase mb-1">Budget</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{ budget }}</div>
                     </div>
+                    <form method="POST" action="">
+                        {{ ub.hidden_tag() }}
+                        {{ ub.new_budget(class ="form-control form-control-sm", placeholder = "Update Budget Here") }}
+                        {{ ub.submit(class="btn btn-success btn-sm mb-2 mt-1") }}
+                        </form>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
                     </div>
@@ -233,8 +211,9 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Graph???</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">00000</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ year }} Totals</div>
+                      <div class="text-s h5 mb-1 font-weight-bold text-gray-800">Spend: ${{ ytd_spend }}</div>
+                      <div class="text-s h5 mb-0 font-weight-bold text-gray-800">Highest Category: [{{ max_cat[0] }}] ${{ max_cat[1] }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -260,7 +239,7 @@
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-7 col-lg-7">
+            <div class="col-xl-6 col-lg-7">
               <div class="card shadow mb-2">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -281,11 +260,49 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                      <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+                            <div><canvas id="chart" width="700" height="400"></canvas></div>
+                            <script>
+                              // bar chart data
+                              var barData = {
+                                labels : [
+                                  {% for item in labels %}
+                                   "{{ item }}",
+                                  {% endfor %}
+                            ],
+                                datasets : [{
+                                  fillColor: "rgba(151,187,205,0.2)",
+                                  strokeColor: "rgba(151,187,205,1)",
+                                  pointColor: "rgba(151,187,205,1)",
+                                  data : [
+                                    {% for item in values %}
+                                       "{{ item }}",
+                                      {% endfor %}
+                                ]
+                                  }
+                                ]
+                              }
+                             // get bar chart canvas
+                             var mychart = document.getElementById("chart").getContext("2d");
+                               steps = 10
+                               max = {{max}}
+                             // draw bar chart
+                             new Chart(mychart).Bar(barData, {
+                               scaleOverride: true,
+                               scaleSteps: steps,
+                               scaleStepWidth: Math.ceil(max / steps),
+                               scaleStartValue: 0,
+                               scaleShowVerticalLines: true,
+                               scaleShowGridLines : true,
+                               barShowStroke : true,
+                               scaleShowLabels: true
+                               }
+                             );
+                            </script>
+                      </div>
                   </div>
                 </div>
               </div>
-            </div>
 
             <div class="col-xl-3 col-lg-4">
               <div class="card shadow mb-4">
@@ -313,7 +330,7 @@
                        <p><strong>[ {{ t.cat }} ]</strong></p>
                         </div>
                         <div>
-                            <form class="btn btn-danger btn-sm m-1" action="{{ url_for('delete_transaction', trans_id=t.id) }}" method="POST">
+                            <form action="{{ url_for('delete_transaction', trans_id=t.id) }}" method="POST">
                                 <input class="btn btn-danger" type="submit" value="Delete">
                               </form>
                           </div>
@@ -327,8 +344,7 @@
               </div>
             </div>
           </div>
-              </div>
-          
+        </div>
           <!-- Content Row -->
         
           <div class="row">
@@ -342,6 +358,7 @@
 
       </div>
       <!-- End of Main Content -->
+
       <!-- End of Footer -->
 
     </div>

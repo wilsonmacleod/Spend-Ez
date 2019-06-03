@@ -2,4 +2,7 @@
 /__pycache__/
 .DS_Store
 ez/.DS_Store
+/.vscode
+/.ipynb_checkpoints
 *.pyc
+*.ipynb

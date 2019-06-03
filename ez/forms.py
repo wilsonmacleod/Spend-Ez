@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SubmitField, FloatField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SubmitField, FloatField, SelectField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
+
+from datetime import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -16,39 +18,29 @@ class Expend(FlaskForm):
                         ('Gift', 'Gift'), ('Other', 'Other')]
     category = SelectField(u'category', validators=[DataRequired()], 
                             choices = category_choices, coerce=str, default = 'Category')
+    date_posted = DateField(default=datetime.today)
     note = TextAreaField()
-    submit = SubmitField('Submit Expense')
+    submit = SubmitField('Submit')
 
-class YearMonth(FlaskForm):
-    
-    def choice_gen(year):
+class TimeTravel(FlaskForm):
 
-        months = [('1', 'January'), ('2', 'February'), ('3', 'March'), 
-                    ('4', 'April'), ('5', 'May'), ('6', 'June'), 
-                    ('7', 'July'), ('8', 'August'), 
-                    ('9', 'September'), ('10', 'October'), 
-                    ('11', 'November'), ('12', 'December')]
+    month_choices = [('0', 'Month'), ('1', 'January'), ('2', 'February'), ('3', 'March'), 
+                ('4', 'April'), ('5', 'May'), ('6', 'June'), 
+                ('7', 'July'), ('8', 'August'), 
+                ('9', 'September'), ('10', 'October'), 
+                ('11', 'November'), ('12', 'December')]
 
-        year_dict = {'19': [('--', '2019')], '20': [('--', '2020')], 
-                        '21': [('--', '2021')],  '22': [('--', '2022')], 
-                        '23': [('--', '2023')], '24': [('--', '2024')]}
+    year_choices = [('0', 'Year'), ('2019', '2019'), ('2020', '2020'), 
+                ('2021', '2021'), ('2022', '2022'), 
+                ('2023', '2023'), ('2024', '2024'),
+                ('2025', '2025'), ('2026', '2026')]
 
-        d1 = dict(year_dict[year])
-        d1.update(dict(months))
-        final_list = list(d1.items())
-        return final_list
-
-    t19 = SelectField(u'2019', validators=[DataRequired()], 
-                            choices = choice_gen('19'), coerce=str, default = '2019')
-    t20 = SelectField(u'2020', validators=[DataRequired()], 
-                            choices = choice_gen('20'), coerce=str, default = '2020')
-    t21 = SelectField(u'2021', validators=[DataRequired()], 
-                            choices = choice_gen('21'), coerce=str, default = '2021')
-    t22 = SelectField(u'2022', validators=[DataRequired()], 
-                            choices = choice_gen('22'), coerce=str, default = '2022')
-    t23 = SelectField(u'2023', validators=[DataRequired()], 
-                            choices = choice_gen('23'), coerce=str, default = '2023')
-    t24 = SelectField(u'2024', validators=[DataRequired()], 
-                            choices = choice_gen('24'), coerce=str, default = '2024')
-
+    months = SelectField(u'2019', validators=[DataRequired()], 
+                            choices = month_choices, coerce=str, default = 'Month')
+    years = SelectField(u'2020', validators=[DataRequired()], 
+                            choices = year_choices, coerce=str, default = 'Year')
     submit = SubmitField('Go')
+
+class UpdateBudget(FlaskForm):
+    new_budget = FloatField(validators=[DataRequired()])
+    submit = SubmitField('Update')
