@@ -32,7 +32,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('landing')}}">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('reload')}}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
@@ -58,8 +58,8 @@
         </form>
               </li>
               <div class="sidebar-heading">
-                  <a href="{{ url_for('landing')}}">
-                  <div><small style="color:white">Click Here for Today</small></a>
+                  <a href="{{ url_for('reload')}}">
+                  <div class = "mb-2"><small style="color:white">Click Here for Today</small></a>
                   </div>
               <hr class="sidebar-divider">
               <div class="sidebar-heading">
@@ -156,9 +156,9 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{ budget }}</div>
                     </div>
                     <form method="POST" action="">
-                        {{ ub.hidden_tag() }}
-                        {{ ub.new_budget(class ="form-control form-control-sm", placeholder = "Update Budget Here") }}
-                        {{ ub.submit(class="btn btn-success btn-sm mb-2 mt-1") }}
+                        {{ update_budget.hidden_tag() }}
+                        {{ update_budget.new_budget(class ="form-control form-control-sm", placeholder = "Update Budget Here") }}
+                        {{ update_budget.submit(class="btn btn-success btn-sm mb-2 mt-1") }}
                         </form>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -330,7 +330,7 @@
                        <p><strong>[ {{ t.cat }} ]</strong></p>
                         </div>
                         <div>
-                            <form action="{{ url_for('delete_transaction', trans_id=t.id) }}" method="POST">
+                            <form action="{{ url_for('delete_transaction', trans_id=t.id, month_num=month_num, year=year) }}" method="POST">
                                 <input class="btn btn-danger" type="submit" value="Delete">
                               </form>
                           </div>

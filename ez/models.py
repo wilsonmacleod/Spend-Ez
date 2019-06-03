@@ -71,19 +71,15 @@ class Transactions(db.Model):
 class General():
 
     def find_today():
-
-        month_dict = {'1': 'January', '2': 'Feburary', '3': 'March', '4': 'April', 
-                    '5': 'May', '6': 'June', '7': 'July',
-                    '8': 'August', '9': 'September', 
-                    '10': 'October', '11': 'November', '12': 'December'}
-
         today = datetime.date.today()
         month_num = today.month
-        return month_dict[str(month_num)], month_num, today.year
+        return month_num, today.year
 
     def month_translate(month_num):
         month_dict = {'1': 'January', '2': 'Feburary', '3': 'March', '4': 'April', 
                     '5': 'May', '6': 'June', '7': 'July',
                     '8': 'August', '9': 'September', 
                     '10': 'October', '11': 'November', '12': 'December'}
+        if month_num not in month_dict:
+            return month_dict['1']
         return month_dict[str(month_num)]
