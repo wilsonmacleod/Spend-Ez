@@ -22,6 +22,3 @@ def create_app():
     app.register_blueprint(main)
 
     return app
-
-#export EZ_SQLALCHEMY_DATABASE_URI="sqlite:///site.db"
-#export EZ_SECRET_KEY="395eca5d4acf6edb4a709be159d6747f"
