@@ -59,15 +59,15 @@
               </li>
               <div class="sidebar-heading">
                   <a href="{{ url_for('reload')}}">
-                  <div class = "mb-2"><small style="color:white">Click Here for Today</small></a>
+                  <div class = "mb-2 mt-4"><small style="color:white">Click Here for Today</small></a>
                   </div>
               <hr class="sidebar-divider">
-              <div class="sidebar-heading">
+              <div class="sidebar-heading mr">
                   <h5> Submit Expense </h5>
                  </div>
                  <!-- Divider -->
                  <hr class="sidebar-divider">
-              <form class = "form-group sidebar-brand-text mx-3 action" method= "POST" action="">
+              <form method= "POST" action="">
                   {{ transaction_submit.hidden_tag() }}
                       <div class="form-group">
                           {% if transaction_submit.amount.errors %}
@@ -90,12 +90,13 @@
                      {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow") }}
                 </form>
               </div>
-              <hr class="sidebar-divider my-1">
-              
-            <li class="nav-item active mt-5">
-                <a class="nav-link" href="{{ url_for('logout')}}">
-                  <i class="fas fa-fw fa-tachometer-alt "></i>
-                  <button class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow" href = "{{ url_for('logout')}}">Logout</button>
+              <hr class="sidebar-divider my-1 mt-3">
+              <div class="navigation">
+            <li class="nav-item active mt-4">
+                <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2" href="{{ url_for('logout')}}">
+                    <div class="logout">LOGOUT</div>
+                  </a>
+                </div>
               </li>
             </ul>
     <!-- End of Sidebar -->
@@ -142,7 +143,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-2">
-           <h1 class="h3 mt-1 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
+           <h1 class="h3 mt-3 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
           </div>
           {% block content %}{% endblock %}
           <!-- Content Row -->
@@ -213,7 +214,7 @@
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ year }} Totals</div>
                       <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">Spend: ${{ ytd_spend }}</div>
-                      <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">Highest Category: [{{ max_cat[0] }}] ${{ max_cat[1] }}</div>
+                      <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">#1 Category: [{{ max_cat[0] }}] ${{ max_cat[1] }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>

@@ -80,6 +80,4 @@ class General():
                     '5': 'May', '6': 'June', '7': 'July',
                     '8': 'August', '9': 'September', 
                     '10': 'October', '11': 'November', '12': 'December'}
-        if month_num not in month_dict:
-            return month_dict['1']
         return month_dict[str(month_num)]
