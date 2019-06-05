@@ -10,8 +10,7 @@ main = Blueprint('main', __name__)
 'USER' ROUTES
 """
 
-@main.route('/', methods = ['GET', 'POST'])
-@main.route('/login', methods = ['GET', 'POST'])
+@main.route('/spend-ez/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
     month_num, year = General.find_today()
@@ -24,7 +23,7 @@ def login():
             flash('Username or Password not correct. Login Unsuccessful.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-@main.route('/logout')
+@main.route('/spend-ez/logout')
 @login_required
 def logout():
     logout_user()
@@ -34,7 +33,7 @@ def logout():
 DASHBOARD ROUTES
 """
 
-@main.route('/landing/<int:month_num>/<int:year>/', methods = ['GET', 'POST'])
+@main.route('/spend-ez/landing/<int:month_num>/<int:year>/', methods = ['GET', 'POST'])
 @login_required
 def landing(month_num, year):
     
@@ -82,7 +81,7 @@ def landing(month_num, year):
 DATA PASSING/UPDATING ROUTES
 """
 
-@main.route("/landing/<int:trans_id>/delete<int:month_num>/<int:year>", methods = ['GET', 'POST'])
+@main.route("/spend-ez/landing/<int:trans_id>/delete<int:month_num>/<int:year>", methods = ['GET', 'POST'])
 @login_required
 def delete_transaction(trans_id, month_num, year):
     trans = Transactions.query.get_or_404(trans_id)
@@ -91,7 +90,7 @@ def delete_transaction(trans_id, month_num, year):
     flash('Your transaction has been deleted!', 'success')
     return redirect(url_for('main.landing', month_num=month_num, year=year))
 
-@main.route("/reload/", methods = ['GET', 'POST'])
+@main.route("/spend-ez/reload/", methods = ['GET', 'POST'])
 @login_required
 def reload():
     month_num, year = General.find_today()
