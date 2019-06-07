@@ -40,11 +40,12 @@ def landing(month_num, year):
     user = User.query.filter_by(username=current_user.username).first() # Logged in user DB object/query
     trans = Transactions.month_transactions(user, month_num, year) #Transaction from this time for user
     
+    sort_trans = sorted((t for t in trans), key = lambda x: x.date_posted)
     ytd_spend, max_cat = Transactions.ytd_transactions(user, year) #YTD Metrics
     budget = user.budget #User stored budget
     total_spend = sum([x.amount for x in trans]) #User Transactions amounts
-    budget_percent = (round((total_spend/budget)*100, 2))
-    
+    budget_percent = (round((total_spend/budget)*100, 2))    
+
     labels, values = Transactions.plot_gen(user, month_num, year) #Bar Plot Generator
     
     time_travel = TimeTravel() # Change view date/year
@@ -52,7 +53,7 @@ def landing(month_num, year):
     update_budget = UpdateBudget() # Change your budget
 
     if time_travel.validate_on_submit(): 
-        if time_travel.years != '0' and time_travel.months != '0':
+        if time_travel.years != None and time_travel.months != None:
             return redirect(url_for('main.landing', month_num=time_travel.months.data, 
                                     year=time_travel.years.data))
 
@@ -73,9 +74,9 @@ def landing(month_num, year):
                             time_travel = time_travel, transaction_submit = transaction_submit, 
                             update_budget = update_budget, 
                             month_num=month_num, month = General.month_translate(month_num), year = year, 
-                            trans = list(reversed(trans)), budget = budget, ytd_spend = ytd_spend,
+                            trans = sort_trans, budget = budget, ytd_spend = ytd_spend,
                             max_cat = max_cat, total_spend = total_spend, budget_percent = budget_percent, 
-                            max=total_spend+100,labels=labels, values=values)
+                            max=int(round(budget*.60, -2)),labels=labels, values=values)
 
 """
 DATA PASSING/UPDATING ROUTES
