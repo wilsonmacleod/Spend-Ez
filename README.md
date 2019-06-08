@@ -1,23 +1,37 @@
-# Flask_Blog-Tutorial
+# Spend-Ez
 
-## Requirements
+Spend-Ez is a simple easy to use single-page dashboard for tracking expenses and maintaining a budget.
 
-Click==7.0
+Try it out [**here**](http://ez.wilsonmacleod.com/spend-ez/login): 
 
-Flask==1.0.2
+**username**: ez_demo
 
-Flask-SQLAlchemy==2.3.2
+**password:** demo123
 
-Flask-WTF==0.14.2
+Sign-up is currently disabled, I am considering implementing a sign-up, however for now please contact me through <website> if you would like your own account.
+ 
+<gif> 
 
-itsdangerous==1.1.0
+## Blurb
 
-Jinja2==2.10.1
+### Inspiration
 
-MarkupSafe==1.1.1
+I wanted to make a tool for my girlfriend and I to track and manage our expenses, hone my Flask skills and learn how to deploy a public facing web-applications.
 
-SQLAlchemy==1.3.3
+This was driven by an urge to better understand where our money was going and to do so without having to use Mint or other programs that harvest data/use personal information.
 
-Werkzeug==0.15.2
+### Implementation 
 
-WTForms==2.2.1
+**Flask** over a **sqlite** database and **SQLAlchemy** for database communication. 
+
+**Charts.js** for the live figures and a **Bootstrap** template for html and css.
+
+Deployed using **Linode**, **Gunicorn**, **Nginx** and **Supervisord**. 
+
+### Design choices
+
+I wanted to keep the application as shallow and centralized as possible, a "one-stop-shop" where you can enter, visualized, track and compare your current and past spending habits. 
+
+From one page you can update your budget, enter a new expense, view this and past months transactions, see your YTD spending and see which categories your spending mostly falls into.
+
+### Feedback is welcomed and appreciate, please drop me a line here:
