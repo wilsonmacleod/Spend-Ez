@@ -11617,7 +11617,7 @@ a:focus {
 
 .chart-area {
   position: relative;
-  height: 10rem;
+  height: 20rem;
   width: 100%;
 }
 .chart-container {
@@ -11626,13 +11626,6 @@ a:focus {
   height: 80vh;
   width: 80vw;
 }
-}
-@media (min-width: 768px) {
-  .chart-area {
-    height: 20rem;
-  }
-}
-
 .chart-bar {
   position: relative;
   height: 10rem;
