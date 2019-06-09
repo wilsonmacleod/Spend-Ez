@@ -40,7 +40,7 @@ def landing(month_num, year):
     user = User.query.filter_by(username=current_user.username).first() # Logged in user DB object/query
     trans = Transactions.month_transactions(user, month_num, year) #Transaction from this time for user
     
-    sort_trans = sorted((t for t in trans), key = lambda x: x.date_posted)
+    sort_trans = reversed(sorted((t for t in trans), key = lambda x: x.date_posted))
     ytd_spend, max_cat = Transactions.ytd_transactions(user, year) #YTD Metrics
     budget = user.budget #User stored budget
     total_spend = sum([x.amount for x in trans]) #User Transactions amounts
