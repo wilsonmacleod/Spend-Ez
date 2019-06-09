@@ -6,3 +6,4 @@ ez/.DS_Store
 /.ipynb_checkpoints
 *.pyc
 *.ipynb
+site.db
