@@ -43,7 +43,7 @@ def landing(month_num, year):
     sort_trans = reversed(sorted((t for t in trans), key = lambda x: x.date_posted))
     ytd_spend, max_cat = Transactions.ytd_transactions(user, year) #YTD Metrics
     budget = user.budget #User stored budget
-    total_spend = sum([x.amount for x in trans]) #User Transactions amounts
+    total_spend = round(sum([x.amount for x in trans]),2) #User Transactions amounts
     budget_percent = (round((total_spend/budget)*100, 2))    
 
     labels, values = Transactions.plot_gen(user, month_num, year) #Bar Plot Generator
@@ -76,7 +76,7 @@ def landing(month_num, year):
                             month_num=month_num, month = General.month_translate(month_num), year = year, 
                             trans = sort_trans, budget = budget, ytd_spend = ytd_spend,
                             max_cat = max_cat, total_spend = total_spend, budget_percent = budget_percent, 
-                            max=int(round(budget*.60, -2)),labels=labels, values=values)
+                            max=int(round(budget*.40, -2)),labels=labels, values=values)
 
 """
 DATA PASSING/UPDATING ROUTES
