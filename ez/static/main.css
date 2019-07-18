@@ -5161,3 +5161,29 @@ a:focus{
     clip:rect(0,900px,0,0);
     animation:noise-anim-2 3s infinite linear alternate-reverse
 }
+.budgetNum {
+    cursor: pointer;
+  }
+.hidden {
+    display: none;
+}
+.slider {
+    margin-right: 5px;
+    width: 100px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: .6;
+}
+.slider:hover {
+    opacity: 1;
+  }
+.slidecontainer {
+width: 100%; /* Width of the outside container */
+}
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
