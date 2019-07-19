@@ -42,26 +42,28 @@
 
 
       <!-- Heading -->
+      
       <div class="sidebar-heading">
        <h5> Choose Date </h5>
       </div>
       <!-- Divider -->
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
+      <div class="form-group">
       <form action="" method="POST">
           {{time_travel.hidden_tag()}}
         <div>
-          {{ time_travel.years(class="form-group sidebar-brand-text mx-3 action") }} 
-          {{ time_travel.months(class="form-group sidebar-brand-text mx-3 action") }} 
-          {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow mx-3") }}
+          {{ time_travel.years(class="wform-control-sm mx-3") }}
+          <p></p>
+          {{ time_travel.months(class="wform-control-sm mx-3") }} 
+          {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow ml-3 mt-3") }}
         </form>
-              </li>
+        </div>
               <div class="sidebar-heading">
                   <a href="{{ url_for('main.reload')}}">
-                  <div class = "mb-2 mt-4"><small style="color:white">Click Here for Today</small></a>
-                  </div>
-              <hr class="sidebar-divider">
-              <div class="sidebar-heading mr">
+                  <div class = "mb-2 mt-2"><small style="color:white">Click Here for Today</small></a>
+                  
+              <hr class="sidebar-divider mt-2">
                   <h5> Submit Expense </h5>
                  </div>
                  <!-- Divider -->
@@ -86,7 +88,7 @@
                     </div>
                     {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
                   <p></p>
-                     {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow") }}
+                     {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
                 </form>
               </div>
               <hr class="sidebar-divider my-1 mt-3">
@@ -141,9 +143,22 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
+          <div class="row mt-3 ml-3">
           <div class="d-sm-flex align-items-center justify-content-between mb-2">
            <h1 class="h3 mt-3 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
           </div>
+          <div class="col-sm-3 sm-2">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                  {% for category, message in messages %}
+                  <div class='alert alert-{{category}}'>
+                      {{ message }}
+                  </div>
+                  {% endfor %}
+              {% endif %}
+              {% endwith %}
+            </div>
+        </div>
           {% block content %}{% endblock %}
           <!-- Content Row -->
           <div class="row">
@@ -153,31 +168,32 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-sm font-weight-bold text-primary text-uppercase mb-2">Budget</div>
-                      <div id="budget" class="h5 mb-2 font-weight-bold text-gray-800 budgetNum mt-2">{{ budget }}</div>
+                      <div id="budget" class="h5 mb-2 font-weight-bold text-gray-800 mt-2">{{ budget }}</div>
                     </div>
-                    <form method="POST" action="">
+                    <button id="revealButton" class="btn btn-success btn-sm mb-2 mt-1">Update Budget</button>
+                    <form id="budgeUpdateForm" class="hidden" method="POST" action="">
+                        
                         {{ update_budget.hidden_tag() }}
                         {{ update_budget.new_budget(class="hidden", id="budget-form") }}
                           </a>
                           
-                          <div class="slidecontainer form-inline">
+                          <div id="slidecontainer" class="slidecontainer form-inline">
                             <div class="row mb-2">
-                            <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget" value={{ budget }} min="0" max={{ budget+1000 }}>
-                            
-                              <a class="mr-2" href="#" title="+100 Max Budget" id="budgetIncrease"><img src="https://img.icons8.com/small/16/000000/add.png"></a>
-                              <a href="#" title="Reset/Undo" id="budgetReset"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png"></a>
-                          </div>
+                            <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget" value={{ budget }} min="150" max={{ budget+1000 }}>
+                              <div class="inline-block">
+                              <a class="ml-2" href="#" title="+100 Max Range" id="budgetIncrease"><img src="https://img.icons8.com/small/16/000000/add.png"></a>
+                              <a href="{{ url_for('main.reload')}}" type="btn" class="close">&times;</a>
+                            </div>
+                            </div>
                         </div>
-                    <div class="col-auto mt-1">
                       <div class="row">
-                      <div class="ml-5">
-                          <a class="budgetNum" id="budget_qty"></a>
+                      <div class="col-auto ml-5">
+                          <div class="bN-field"><a class="budgetNum" id="budget_qty"></a></div>
                     </div>
-                    <div class="ml-4">
-                        {{ update_budget.submit(class="btn btn-primary btn-sm mb-2 mt-1") }}
+                    <div class="ml-2">
+                        {{ update_budget.submit(class="btn btn-primary btn-sm mb-2 mt-1", id="buSubmit") }}
                     </div>
                     </div>
-                  </div>
                   </form>
                   </div>
                 </div>
@@ -209,20 +225,18 @@
                         </div>
                         <div class="row no-gutters align-items-center">
                           <div class="col-auto">
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ budget_percent }}%</div>
+                            <div id="bPerc" value={{ budget_percent }} class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ budget_percent }}%</div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                      </div>
+                      <img class="mr-3" id="howIfeel" title="You are doing great!" src="https://img.icons8.com/ios/50/000000/happy.png">
                     </div>
                   </div>
                 </div>
               </div>
 
             <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-2 col-md-4 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
@@ -241,17 +255,6 @@
           </div>
           <!-- Content Row -->
               <!-- FORM -->
-              <div class="col-sm-4 sm-2">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                    <div class='alert alert-{{category}}'>
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                {% endif %}
-                {% endwith %}
-              </div>
           <div class="row">
 
             <!-- Area Chart -->
@@ -320,7 +323,7 @@
                 </div>
               </div>
 
-            <div class="col-xl-4 col-lg-4">
+            <div class="col-xl-3 col-lg-2">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -353,7 +356,6 @@
                     </article>
                     <hr class="divider my-1">  
             {% endfor %}
-                    <span class="mr-2">
                     </span>
                   </div>
                 </div>

@@ -804,6 +804,15 @@ hr{
     line-height:1.5;
     border-radius:.2rem
 }
+.wform-control-sm{
+    height:calc(1.5em + .5rem + 2px);
+    padding:.25rem .5rem;
+    font-size:1rem;
+    font-weight:400;
+    line-height:1.5;
+    color:#6e707e;
+    background-color:#fff;
+}
 .form-control-lg{
     height:calc(1.5em + 1rem + 2px);
     padding:.5rem 1rem;
@@ -1802,7 +1811,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     margin-left:1.25rem
 }
 .card-header{
-    padding:.75rem 1.25rem;
+    padding:.50rem .75rem;
     margin-bottom:0;
     background-color:#f8f9fc;
     border-bottom:1px solid #e3e6f0
@@ -1814,7 +1823,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     border-top:0
 }
 .card-footer{
-    padding:.75rem 1.25rem;
+    padding:.75rem .75rem;
     background-color:#f8f9fc;
     border-top:1px solid #e3e6f0
 }
@@ -5162,10 +5171,25 @@ a:focus{
     animation:noise-anim-2 3s infinite linear alternate-reverse
 }
 .budgetNum {
+    margin-top: 10px;
     cursor: pointer;
   }
+.budgetNum:hover{
+    font-weight: 700;
+}
+.bN-field{
+    padding:.50rem .50rem;
+    max-height: 36px;
+    background-color:#f8f9fc;
+    border-bottom:.5px solid #e3e6f0;
+    opacity:.8;
+}
+.bN-field:hover{
+    opacity:1;
+}
 .hidden {
     display: none;
+    opacity: 1;
 }
 .slider {
     margin-right: 5px;
@@ -5179,11 +5203,103 @@ a:focus{
     opacity: 1;
   }
 .slidecontainer {
-width: 100%; /* Width of the outside container */
+width: 100%;
+position: relative;
 }
 .right {
     float: right;
 }
 .left {
     float: left;
+}
+.inputField {
+    width: 100px;
+    height: 30px;
+}
+.close{
+    float:right;
+    font-weight:100;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    opacity:1;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.close:hover{
+    font-weight:1000;
+}
+
+input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 30px;
+    width: 160px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+::-webkit-slider-runnable-track {
+    background-image: url("https://img.icons8.com/ios/30/000000/money-bag.png");
+    opacity: .8;
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    border: 2px solid #999; /* 1 */
+}
+
+::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+}
+
+::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    box-sizing: border-box;
+}
+
+::-ms-fill-lower { 
+    background: dodgerblue;
+}
+
+::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+    display: none; 
+}
+
+::-ms-ticks-before { 
+    display: none; 
+}
+
+::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip { 
+    display: none;
 }
