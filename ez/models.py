@@ -140,7 +140,7 @@ class General():
         return month_num, today.year
 
     def month_translate(month_num):
-        month_dict = {'1': 'January', '2': 'Feburary', '3': 'March', '4': 'April',
+        month_dict = {'1': 'January', '2': 'February', '3': 'March', '4': 'April',
                       '5': 'May', '6': 'June', '7': 'July',
                       '8': 'August', '9': 'September',
                       '10': 'October', '11': 'November', '12': 'December'}
