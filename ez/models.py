@@ -62,7 +62,7 @@ class Transactions(db.Model):
             post = each.date_posted
             if post.year == year:
                 ytd.append(each)
-                sort_dict[each.cat] += int(each.amount)
+                sort_dict[each.cat] += each.amount
         max_cat = max(sort_dict.items(), key=lambda k: k[1])
         return round(sum([x.amount for x in ytd]), 2), max_cat
 
@@ -85,8 +85,8 @@ class Transactions(db.Model):
         for tran in trans:
             date = tran.date_posted
             x = General.month_translate(date.month)
-            t_dict[x][tran.cat] += round(tran.amount,2)
-            t_dict[x]['Total'] += round(tran.amount,2)
+            t_dict[x][tran.cat] += tran.amount
+            t_dict[x]['Total'] += tran.amount
         return t_dict
 
     def plot_gen(user, month_num, year):
@@ -110,7 +110,7 @@ class Transactions(db.Model):
             if post.year == year:
                 ytd.append(each)
         for each in ytd:
-            sort_dict[str(each.cat)] += int(each.amount)
+            sort_dict[str(each.cat)] += each.amount
         labels = [i for x, i in sort_dict.items()]
         values = [i for i in sort_dict]
         colors = [
