@@ -251,7 +251,7 @@
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ year }} Totals</div>
                   <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">Spend: ${{ ytd_spend }}</div>
-                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb">#1 Category: [{{ max_cat[0] }}]
+                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb">#1 Category: [{{ max_cat[0]|round(2) }}]
                     ${{ max_cat[1] }}</div>
                   <a href="#" class="text-xs font-weight-bold text-green-800 text-uppercase mb-1" id="seeMoreTotals">See
                     More Here!</a>
@@ -392,7 +392,7 @@
         {% for m, t in modal_dict.items() %}
         <div class="acc"><a class="text-m font-weight-bold text-green-800 text-uppercase ml-3" href="#"> {{ m }}
             {{ year }}</a> <text class="text-m font-weight-bold text-800 text-uppercase">Spend:
-            {{ modal_dict[m]["Total"] }}</text> </div>
+            {{ modal_dict[m]["Total"]|round(2) }}</text> </div>
         <div class="con">
           <table class="table">
             <thead>
@@ -406,7 +406,7 @@
               {% if am != 0 %}
               <tr>
                 <td><strong>{{ ca }}</strong></td>
-                <td>${{ am }}</td>
+                <td>${{ am|round(2) }}</td>
               </tr>
               {% endif %}
               {% endfor %}</tbody>
