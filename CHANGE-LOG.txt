@@ -21,6 +21,9 @@
 -Resized UI
 
 TODO:
+
+**SCRIPT TO UPDATE/TEST DEMO ACT**
+
 -Refactor project tree (models.py?)
 -Add accordian "excel" table beneath plot table?
 -tighter expense submission rules
