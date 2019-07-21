@@ -62,7 +62,7 @@ class Transactions(db.Model):
             post = each.date_posted
             if post.year == year:
                 ytd.append(each)
-                sort_dict[each.cat] += each.amount
+                sort_dict[each.cat] += int(each.amount)
         max_cat = max(sort_dict.items(), key=lambda k: k[1])
         return round(sum([x.amount for x in ytd]), 2), max_cat
 
@@ -110,7 +110,7 @@ class Transactions(db.Model):
             if post.year == year:
                 ytd.append(each)
         for each in ytd:
-            sort_dict[str(each.cat)] += each.amount
+            sort_dict[str(each.cat)] += round(each.amount,2)
         labels = [i for x, i in sort_dict.items()]
         values = [i for i in sort_dict]
         colors = [
