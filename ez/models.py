@@ -85,8 +85,8 @@ class Transactions(db.Model):
         for tran in trans:
             date = tran.date_posted
             x = General.month_translate(date.month)
-            t_dict[x][tran.cat] += tran.amount
-            t_dict[x]['Total'] += tran.amount
+            t_dict[x][tran.cat] += round(tran.amount,2)
+            t_dict[x]['Total'] += round(tran.amount,2)
         return t_dict
 
     def plot_gen(user, month_num, year):
@@ -110,7 +110,7 @@ class Transactions(db.Model):
             if post.year == year:
                 ytd.append(each)
         for each in ytd:
-            sort_dict[str(each.cat)] += round(each.amount,2)
+            sort_dict[str(each.cat)] += int(each.amount)
         labels = [i for x, i in sort_dict.items()]
         values = [i for i in sort_dict]
         colors = [
@@ -124,7 +124,10 @@ class Transactions(db.Model):
         total = sum(labels)
         d = dict(zip(values, labels))
         for i, y in d.items():
-            y = ((y/total)*100)
+            try:
+                y = ((y/total)*100)
+            except ZeroDivisionError:
+                y = 0
             d[i] = round(y, 2)
         return d
 
