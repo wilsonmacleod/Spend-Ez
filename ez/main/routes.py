@@ -60,7 +60,7 @@ def landing(month_num, year):
         user, month_num, year)  # Bar Plot Generator
     pie_labels, pie_values, colors = Transactions.model_pie_gen(
         user, year)  # Modal pie Generator
-    motal_percs = Transactions.pie_sub_data(pie_labels, pie_values)
+    motal_percs = Transactions.pie_sub_data(pie_labels, round(pie_values,2))
 
     #FORMS
     time_travel = TimeTravel()  # Change view date/year
@@ -92,7 +92,7 @@ def landing(month_num, year):
                            update_budget=update_budget, modal_dict=modal_dict,
                            month_num=month_num, month=General.month_translate(
                                month_num),
-                           year=year, trans=sort_trans, budget=budget, ytd_spend=ytd_spend,
+                           year=year, trans=sort_trans, budget=budget, ytd_spend=round(ytd_spend,2),
                            max_cat=max_cat, total_spend=total_spend,
                            budget_percent=budget_percent,
                            max=int(round(budget*.40, -2)), labels=labels, values=values,
