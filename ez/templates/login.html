@@ -13,13 +13,15 @@
 
   <!-- Custom fonts for this template-->
   <link href="" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
-   <!--Icon-->
-   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <!--Icon-->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 </head>
 
@@ -29,21 +31,21 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-            <div>
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                        <div class='alert alert-{{category}}'>
-                            {{ message }}
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% endwith %}
-                    </div>
+      <div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class='alert alert-{{category}}'>
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
       <div class="col-xl-10 col-lg-12 col-md-9">
 
         <div class="card o-hidden border-0 shadow-lg my-5">
-          <div class="card-body p-0">
+          <div class="lg-card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
               <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
@@ -51,50 +53,50 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h1 text-gray-900 mb-4">Welcome To Spend EZ!</h1>
-                    <h3 class="h5 text-red-900 mb-4">Sign-up is currently disabled...</h3> 
+                    <h3 class="h5 text-red-900 mb-4">Sign-up is currently disabled...</h3>
                   </div>
                   <form method="POST" action="">
-                        {{ form.hidden_tag() }}
+                    {{ form.hidden_tag() }}
                     <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                        {{ form.password.label(class="form-control-label") }}
-                        {% if form.password.errors %}
-                            {{ form.password(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.password.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.password(class="form-control form-control-lg") }}
-                        {% endif %}
+                      {{ form.username.label(class="form-control-label") }}
+                      {% if form.username.errors %}
+                      {{ form.username(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.username(class="form-control-log form-control-lg") }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
-                            {{ form.submit(class="btn btn-info") }}
-                        </div>
-                    </form>
-                  </div>
+                      {{ form.password.label(class="form-control-label") }}
+                      {% if form.password.errors %}
+                      {{ form.password(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.password(class="form-control-log form-control-lg") }}
+                      {% endif %}
+                    </div>
+                    <div class="form-group">
+                      {{ form.submit(class="btn btn-success") }}
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
+
+  </div>
   </div>
 </body>
 

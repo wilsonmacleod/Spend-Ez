@@ -731,6 +731,28 @@ hr{
     background-clip:padding-box;
     border:1px solid #d1d3e2;
     border-radius:.35rem;
+    max-height: 200px;
+    max-width: 150px;
+    -webkit-transition:border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition:border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out
+}
+.form-control-log{
+    display:block;
+    width:100%;
+    height:calc(1.5em + .75rem + 2px);
+    padding:.375rem .75rem;
+    font-size:1rem;
+    font-weight:400;
+    line-height:1.5;
+    color:#6e707e;
+    background-color:#fff;
+    background-clip:padding-box;
+    border:1px solid #d1d3e2;
+    border-radius:.35rem;
+    max-height: 200px;
+    max-width: auto;
     -webkit-transition:border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
     transition:border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
     transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;
@@ -812,6 +834,7 @@ hr{
     line-height:1.5;
     color:#6e707e;
     background-color:#fff;
+    cursor: pointer;
 }
 .form-control-lg{
     height:calc(1.5em + 1rem + 2px);
@@ -1796,7 +1819,14 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     -webkit-box-flex:1;
     -ms-flex:1 1 auto;
     flex:1 1 auto;
-    padding:1.25rem
+    padding:1.25rem;
+    max-height: 360px;
+}
+.lg-card-body{
+    -webkit-box-flex:1;
+    -ms-flex:1 1 auto;
+    flex:1 1 auto;
+    padding:1.25rem;
 }
 .card-title{
     margin-bottom:.75rem
@@ -4264,7 +4294,7 @@ a:focus{
 #wrapper{
     display:-webkit-box;
     display:-ms-flexbox;
-    display:flex
+    display:flex;
 }
 #wrapper #content-wrapper{
     background-color:#f8f9fc;
@@ -4437,6 +4467,9 @@ a:focus{
 }
 .text-xs{
     font-size:.7rem
+}
+.text-m{
+    font-size:.9rem;
 }
 .text-lg{
     font-size:1.2rem
@@ -5225,6 +5258,7 @@ position: relative;
     opacity:1;
     margin-bottom: 15px;
     cursor: pointer;
+    font-size: 25px;
 }
 .close:hover{
     font-weight:1000;
@@ -5236,13 +5270,13 @@ input[type="range"] {
     position: relative;
     overflow: hidden;
     height: 30px;
-    width: 160px;
+    width: 190px;
     cursor: pointer;
     border-radius: 0;
 }
 
 ::-webkit-slider-runnable-track {
-    background-image: url("https://img.icons8.com/ios/30/000000/money-bag.png");
+    background-image: url("/static/icons/money.jpg");
     opacity: .8;
 }
 
@@ -5254,7 +5288,7 @@ input[type="range"] {
     width: 20px; /* 1 */
     height: 40px;
     background: #fff;
-    box-shadow: -100vw 0 0 100vw dodgerblue;
+    box-shadow: -100vw 0 0 100vw #4e73df;
     border: 2px solid #999; /* 1 */
 }
 
@@ -5302,4 +5336,74 @@ input[type="range"] {
 
 ::-ms-tooltip { 
     display: none;
+}
+.SM-modal {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100px;
+    margin-left: auto;
+    margin-right: 800px;
+    width: 650px;
+    height: auto;
+    background-color: #fff;
+    border: 1.5px solid black;
+    z-index:1000;
+
+}
+.con {
+    border: .2px solid gray;
+    font-size: 0.8em;
+    display: none;
+    height: auto;
+    max-width: 100%;
+    padding: 2px;
+}
+.acc{
+    font-size:1.5em;
+    background-color: #fff;
+    border: .2px solid gray;
+    height: auto;
+    min-height: 43px;
+    max-width: 100%;
+}
+.acc:hover{
+    background-color: #D3D3D3;
+    cursor: pointer;
+}
+.ac-active {
+    display:block;
+}
+.ac-text {
+    margin-left: 15px;
+}
+.pie-canvas {
+    float:right;
+}
+/* width */
+::-webkit-scrollbar {
+    margin: none;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    width: 10px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+/* Track */
+::-webkit-slider-runnable-track {
+    opacity: .8;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #4e73df; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555; 
 }

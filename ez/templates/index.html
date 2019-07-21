@@ -10,7 +10,7 @@
   <meta name="author" content="">
 
   <title>~Spend~EZ~</title>
-
+  
   <!-- Custom fonts for this template-->
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
@@ -26,256 +26,269 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('main.reload')}}">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mt-3">
+      <h2>Spend EZ</h2>
+    </div>
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('main.reload')}}">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mt-3"><h2>Spend EZ</h2></div>
-      </a>
-      <!-- Divider -->
-      <hr class="sidebar-divider my-1">
+  </a>
+  <!-- Divider -->
+  <hr class="sidebar-divider my-1">
 
 
-      <!-- Heading -->
-      
-      <div class="sidebar-heading">
-       <h5> Choose Date </h5>
+  <!-- Heading -->
+
+  <div class="sidebar-heading">
+    <h5> Choose Date </h5>
+  </div>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+  <!-- Nav Item - Pages Collapse Menu -->
+  <div class="form-group">
+    <form action="" method="POST">
+      {{time_travel.hidden_tag()}}
+      <div>
+        {{ time_travel.years(class="wform-control-sm mx-3") }}
+        <p></p>
+        {{ time_travel.months(class="wform-control-sm mx-3") }}
+        {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow ml-3 mt-3") }}
+    </form>
+  </div>
+  <div class="sidebar-heading">
+    <a href="{{ url_for('main.reload')}}">
+      <div class="mb-2 mt-2"><small style="color:white">Click Here for Today</small>
+    </a>
+
+    <hr class="sidebar-divider mt-2">
+    <h5> Submit Expense </h5>
+  </div>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+  <form method="POST" action="">
+    {{ transaction_submit.hidden_tag() }}
+    <div class="form-group">
+      {% if transaction_submit.amount.errors %}
+      {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in transaction_submit.amount.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      <!-- Nav Item - Pages Collapse Menu -->
-      <div class="form-group">
-      <form action="" method="POST">
-          {{time_travel.hidden_tag()}}
-        <div>
-          {{ time_travel.years(class="wform-control-sm mx-3") }}
-          <p></p>
-          {{ time_travel.months(class="wform-control-sm mx-3") }} 
-          {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow ml-3 mt-3") }}
-        </form>
-        </div>
-              <div class="sidebar-heading">
-                  <a href="{{ url_for('main.reload')}}">
-                  <div class = "mb-2 mt-2"><small style="color:white">Click Here for Today</small></a>
-                  
-              <hr class="sidebar-divider mt-2">
-                  <h5> Submit Expense </h5>
-                 </div>
-                 <!-- Divider -->
-                 <hr class="sidebar-divider">
-              <form method= "POST" action="">
-                  {{ transaction_submit.hidden_tag() }}
-                      <div class="form-group">
-                          {% if transaction_submit.amount.errors %}
-                              {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
-                              <div class="invalid-feedback">
-                                  {% for error in transaction_submit.amount.errors %}
-                                      <span>{{ error }}</span>
-                                  {% endfor %}
-                              </div>
-                          {% else %}
-                              {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
-                          {% endif %}
-                      <p>
-                        </p>
-                          {{ transaction_submit.category(class = "form-control form-control-sm mt-3") }}
-                           {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
-                    </div>
-                    {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
-                  <p></p>
-                     {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
-                </form>
+      {% else %}
+      {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
+      {% endif %}
+      <p>
+      </p>
+      {{ transaction_submit.category(class = "form-control form-control-sm mt-3") }}
+      {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
+    </div>
+    {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
+    <p></p>
+    {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
+  </form>
+  <hr class="sidebar-divider my-1 mt-3">
+  <div class="navigation">
+    <li class="nav-item active mt-4">
+      <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2"
+        href="{{ url_for('main.logout')}}">
+        <div class="logout">LOGOUT</div>
+      </a>
+  </div>
+  </li>
+</ul>
+<!-- End of Sidebar -->
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+      <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+      <li class="nav-item dropdown no-arrow d-sm-none">
+        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-search fa-fw"></i>
+        </a>
+        <!-- Dropdown - Messages -->
+        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+          <form class="form-inline mr-auto w-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
               </div>
-              <hr class="sidebar-divider my-1 mt-3">
-              <div class="navigation">
-            <li class="nav-item active mt-4">
-                <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2" href="{{ url_for('main.logout')}}">
-                    <div class="logout">LOGOUT</div>
-                  </a>
-                </div>
-              </li>
-            </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-          </ul>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="row mt-3 ml-3">
-          <div class="d-sm-flex align-items-center justify-content-between mb-2">
-           <h1 class="h3 mt-3 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
-          </div>
-          <div class="col-sm-3 sm-2">
-              {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                  {% for category, message in messages %}
-                  <div class='alert alert-{{category}}'>
-                      {{ message }}
-                  </div>
-                  {% endfor %}
-              {% endif %}
-              {% endwith %}
             </div>
+          </form>
         </div>
-          {% block content %}{% endblock %}
-          <!-- Content Row -->
-          <div class="row">
-              <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-sm font-weight-bold text-primary text-uppercase mb-2">Budget</div>
-                      <div id="budget" class="h5 mb-2 font-weight-bold text-gray-800 mt-2">{{ budget }}</div>
+
+    </ul>
+
+    </nav>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="row mt-3 ml-3">
+        <div class="d-sm-flex align-items-center justify-content-between mb-2">
+          <h1 class="h3 mt-3 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
+        </div>
+        <div class="col-sm-3 sm-2">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class='alert alert-{{category}}'>
+            {{ message }}
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+      {% block content %}{% endblock %}
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-sm font-weight-bold text-primary text-uppercase mb-2">Budget</div>
+                  <div id="budget" class="h5 mb-2 font-weight-bold text-gray-800 mt-2">{{ budget }}</div>
+                </div>
+                <button id="revealButton" class="btn btn-success btn-sm mb-2 mt-1">Update Budget</button>
+                <form id="budgeUpdateForm" class="hidden" method="POST" action="">
+
+                  {{ update_budget.hidden_tag() }}
+                  {{ update_budget.new_budget(class="hidden", id="budget-form") }}
+                  </a>
+
+                  <div id="slidecontainer" class="slidecontainer form-inline">
+                    <div class="row mb-2">
+                      <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget"
+                        value={{ budget }} min="150" max={{ budget+1000 }}>
+                      <div class="inline-block">
+                        <a class="ml-2" href="#" title="+100 Max Range" id="budgetIncrease"><img
+                            src="/static/icons/add.png"></a>
+                        <a href="{{ url_for('main.reload')}}" type="btn" class="close ml-2">&times;</a>
+                      </div>
                     </div>
-                    <button id="revealButton" class="btn btn-success btn-sm mb-2 mt-1">Update Budget</button>
-                    <form id="budgeUpdateForm" class="hidden" method="POST" action="">
-                        
-                        {{ update_budget.hidden_tag() }}
-                        {{ update_budget.new_budget(class="hidden", id="budget-form") }}
-                          </a>
-                          
-                          <div id="slidecontainer" class="slidecontainer form-inline">
-                            <div class="row mb-2">
-                            <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget" value={{ budget }} min="150" max={{ budget+1000 }}>
-                              <div class="inline-block">
-                              <a class="ml-2" href="#" title="+100 Max Range" id="budgetIncrease"><img src="https://img.icons8.com/small/16/000000/add.png"></a>
-                              <a href="{{ url_for('main.reload')}}" type="btn" class="close">&times;</a>
-                            </div>
-                            </div>
-                        </div>
-                      <div class="row">
-                      <div class="col-auto ml-5">
-                          <div class="bN-field"><a class="budgetNum" id="budget_qty"></a></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-auto ml-5">
+                      <div class="bN-field"><a class="budgetNum" id="budget_qty"></a></div>
                     </div>
                     <div class="ml-2">
-                        {{ update_budget.submit(class="btn btn-primary btn-sm mb-2 mt-1", id="buSubmit") }}
+                      {{ update_budget.submit(class="btn btn-primary btn-sm mb-2 mt-1", id="buSubmit") }}
                     </div>
-                    </div>
-                  </form>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
-                <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-2 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Spent This Month</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{ total_spend }}</div>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-2 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget Spent %
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                          <div class="col-auto">
-                            <div id="bPerc" value={{ budget_percent }} class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ budget_percent }}%</div>
-                          </div>
-                        </div>
-                      </div>
-                      <img class="mr-3" id="howIfeel" title="You are doing great!" src="https://img.icons8.com/ios/50/000000/happy.png">
-                    </div>
-                  </div>
+          </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-2 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Spent This Month</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">${{ total_spend }}</div>
                 </div>
-              </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-2 col-md-4 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ year }} Totals</div>
-                      <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">Spend: ${{ ytd_spend }}</div>
-                      <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">#1 Category: [{{ max_cat[0] }}] ${{ max_cat[1] }}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
+                <div class="col-auto">
+                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Content Row -->
-              <!-- FORM -->
-          <div class="row">
-
-            <!-- Area Chart -->
-            <div class="col-xl-6 col-lg-7">
-              <div class="card shadow mb-2">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Monthly Spending</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-2 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget Spent %
+                  </div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div id="bPerc" value={{ budget_percent }} class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                        {{ budget_percent }}%</div>
                     </div>
                   </div>
                 </div>
+                <img class="mr-3" id="howIfeel">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-2 col-md-4 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ year }} Totals</div>
+                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">Spend: ${{ ytd_spend }}</div>
+                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb">#1 Category: [{{ max_cat[0] }}]
+                    ${{ max_cat[1] }}</div>
+                  <a href="#" class="text-xs font-weight-bold text-green-800 text-uppercase mb-1" id="seeMoreTotals">See
+                    More Here!</a>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content Row -->
+      <!-- FORM -->
+      <div class="row">
+
+        <!-- Area Chart -->
+        <div class="col-xl-6 col-lg-7">
+          <div class="card shadow mb-2">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Monthly Spending</h6>
+              <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                  aria-labelledby="dropdownMenuLink">
+                  <div class="dropdown-header">Dropdown Header:</div>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            </div>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
@@ -322,71 +335,126 @@
                   </div>
                 </div>
               </div>
-
-            <div class="col-xl-3 col-lg-2">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Transaction History</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body card-text">
-                    {% for t in trans %}
-                    <article class="media content-section">
-                        <div class="media-body">
-                        <div class="article-metadata ">
-                            <small class="text-muted">{{ t.date_posted.strftime('%Y-%m-%d') }}</small>
-                        </div>
-                        <h2><a><strong>${{ t.amount }}</strong></a></h2>
-                        <p>{{ t.note }}</p>
-                       <p><strong>[ {{ t.cat }} ]</strong></p>
-                        </div>
-                        <div>
-                            <form action="{{ url_for('main.delete_transaction', trans_id=t.id, month_num=month_num, year=year) }}" method="POST">
-                                <input class="btn btn-danger" type="submit" value="Delete">
-                              </form>
-                          </div>
-                    </article>
-                    <hr class="divider my-1">  
-            {% endfor %}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="col-xl-3 col-lg-2">
+  <div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Transaction History</h6>
+      <div class="dropdown no-arrow">
+        <a class="dropdown-toggle" href="#" role="button">
+          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
         </div>
-          <!-- Content Row -->
-        
-          <div class="row">
-            <!-- Content Column -->
-
-            </div>
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
       </div>
-      <!-- End of Main Content -->
-
-      <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
-
+    <!-- Card Body -->
+    <div class="card-body card-text">
+      {% for t in trans %}
+      <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata ">
+            <small class="text-muted">{{ t.date_posted.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <h2><a><strong>${{ t.amount }}</strong></a></h2>
+          <p>{{ t.note }}</p>
+          <p><strong>[ {{ t.cat }} ]</strong></p>
+        </div>
+        <div>
+          <form action="{{ url_for('main.delete_transaction', trans_id=t.id, month_num=month_num, year=year) }}"
+            method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </article>
+      <hr class="divider my-1">
+      {% endfor %}
+      </span>
+    </div>
   </div>
-  <!-- End of Page Wrapper -->
+</div>
+</div>
+</div>
+</div>
+<!-- Content Row -->
+
+<!-- Content Column -->
+<div id="seeMoreModal" class="SM-modal">
+  <div>
+    <a onclick="document.getElementById('seeMoreTotals').click()" type="btn" class="close mx-3 mt-2">&times;</a>
+    <div class="row mt-3"></div>
+    <div class="mb-2"><strong>
+        <h3 align="center"><a title="{{ user }} Spending {{ year }}">{{ year }} Summary</a></h3>
+      </strong></div>
+    <!--pie chart of year breakdown by category?-->
+    <div class="row">
+      <div class="col">
+        {% for m, t in modal_dict.items() %}
+        <div class="acc"><a class="text-m font-weight-bold text-green-800 text-uppercase ml-3" href="#"> {{ m }}
+            {{ year }}</a> <text class="text-m font-weight-bold text-800 text-uppercase">Spend:
+            {{ modal_dict[m]["Total"] }}</text> </div>
+        <div class="con">
+          <table class="table">
+            <thead>
+              <strong>
+                <th scope="col"><a title="Spending Categories" href="#">Category</a></th>
+                <th scope="col"><a href="#" title="Amount Spent YTD">Amount</a></th>
+              </strong>
+            </thead>
+            <tbody>
+              {% for ca, am in t.items() %}
+              {% if am != 0 %}
+              <tr>
+                <td><strong>{{ ca }}</strong></td>
+                <td>${{ am }}</td>
+              </tr>
+              {% endif %}
+              {% endfor %}</tbody>
+          </table>
+        </div>
+        {% endfor %}
+        <!--category specific breakdown?-->
+      </div>
+      <div class="col">
+                    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+          <canvas id="pie-chart" width="230" height="200" class="pie-canvas"></canvas>
+          <script>
+            var pieData = [
+              {% for item, label, colors in set %}
+                {
+                  value: {{item}},
+                  label: "{{label}}",
+                  color: "{{colors}}"
+                },
+              {% endfor %}
+            ];
+            // get bar chart canvas
+            var mychart = document.getElementById("pie-chart").getContext("2d");
+            steps = 10
+            max = {{ max }}
+            // draw pie chart
+            new Chart(document.getElementById("pie-chart").getContext("2d")).Pie(pieData);
+          </script>
+          <p class="mt-3"></p>
+        <div><strong><h5 align="center">${{ ytd_spend }}</h5></strong></div> 
+      <table class="table"><thead>
+          <strong><th scope="col"><a title="Spending Categories" href="#">Category</a></th>
+            <th scope="col"><a title="Spending Categories" href="#">% of YTD spend</a></th></strong>
+          </thead>
+            <tbody>
+            {% for c, p in modal_percs.items() %}
+            {% if p != 0 %}
+            <tr><td class="mr-3">{{ c }} </td><td>{{ p }}%</td></tr>
+            {% endif %}
+            {% endfor %}</tbody></table></div>
+          </div>
+        </div>
+              </div>
+              </div>
+
+            </div>
 
   <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
   <script src="{{ url_for('static', filename='spend-ez.js') }}" type="text/javascript"></script>

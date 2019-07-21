@@ -1,0 +1,33 @@
+==SPEND-EZ CHANGELOG==
+
+-version 1.5-
+
+-Added JS update budget form
+-Added JS onload feedback emojis
+-General salvaging of messy CSS and HTML
+	-time travel form style changed to match
+	-squeezed trans history and totals card
+	-aligned side navbar
+	-changed btn colors
+	-removed unnecessary BS4 template CSS
+	-Stylized default scrollbar on transaction history
+-Added default username to point to demo account for easier demo access
+-Add pop-up modal of selected years summary
+	Features:
+		-Added accordian menu
+		-Pie Chart
+		-Summary by Month (total and categorical)
+		-List of % Spend per category for chosen year
+-Resized UI
+
+TODO:
+-Refactor project tree (models.py?)
+-Add accordian "excel" table beneath plot table?
+-tighter expense submission rules
+-Downloadable reports
+-Goal setting
+-Better historical budget tracking
+-Clickable sorting methods
+-Projections? (ML)
+-Open sign-up?
+

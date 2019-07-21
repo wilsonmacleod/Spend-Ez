@@ -1,3 +1,24 @@
+window.onload = feedback
+
+function feedback() { //"budget spent" feedback controller
+  var img = document.getElementById('howIfeel');
+  var bPerc = document.getElementById("bPerc");
+  var pVal = Number(bPerc.getAttribute("value"));
+  if (pVal >= 130.00) {
+    img.src = "/static/icons/rip.jpg";
+    img.title = "Better luck next month....";
+  } else if (pVal >= 100.00) {
+    img.src = "/static/icons/sad.jpg";
+    img.title = "You've maxed your budget.";
+  } else if (pVal >= 75.00) {
+    img.src = "/static/icons/emb.jpg";
+    img.title = "You're almost to your max spend.";
+  } else {
+    img.src = "/static/icons/happy.jpg";
+    img.title = "You're doing great this month!";
+  }
+}
+
 document.getElementById("revealButton").addEventListener("click", function () { //"Update Budget Button"
   this.classList.toggle("hidden");
   document.getElementById('budgeUpdateForm').classList.toggle("hidden");
@@ -37,9 +58,7 @@ document.getElementById("revealButton").addEventListener("click", function () { 
           continue;
         }
       }
-      if (val.length <= 0 || val <= 150) { //remove outliers 
-        val = 150;
-      }
+      (val.length <= 0 || val <= 150)?val=150:val=val; //remove outliers 
       currentBudge.removeChild(inputField);
       currentBudge.innerHTML = val;
       var hiddenForm = document.getElementById("budget-form");
@@ -56,23 +75,24 @@ document.getElementById("revealButton").addEventListener("click", function () { 
   })
 })
 
-//TODO
-// All imgs local, change titles
-/*
-window.onload = feedback
+document.getElementById("seeMoreTotals").addEventListener("click", function () { //modal revealer for year totals
+  var container = document.getElementById("seeMoreModal");
+  container.style.visibility = (container.style.visibility == "visible") ? "hidden" : "visible";
+})
 
-function feedback () {
-  var img = document.getElementById('howIfeel');
-  var bPerc = document.getElementById("bPerc");
-  var pVal = Number(bPerc.getAttribute("value"));
-  if(pVal >= 120.00){
-    img.src = "https://img.icons8.com/ios/50/000000/headstone.png";
-  }else if(pVal >= 90.00){
-    img.src = "https://img.icons8.com/ios/50/000000/sad.png";
-  }else if(pVal >= 75.00){
-    img.src = "https://icons8.com/icon/25542/embarrassed";
-  }else{
-    img.src = "https://img.icons8.com/ios/50/000000/happy.png";
+var aTitle = document.querySelectorAll('.acc'); //accordian for modal
+var c = document.querySelectorAll('.con');
+for (var x = 0; x < aTitle.length; x++) {
+  aTitle[x].onclick = function () {
+    cCon(this.nextElementSibling);
+    this.nextElementSibling.classList.toggle('ac-active');
   }
 }
-*/
+
+function cCon(t) {
+  for (var x = 0; x < c.length; x++) {
+    if (t != c[x]) {
+      c[x].classList.remove('ac-active');
+    }
+  }
+}

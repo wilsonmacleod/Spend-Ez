@@ -10,7 +10,8 @@ main = Blueprint('main', __name__)
 'USER' ROUTES
 """
 
-@main.route('/spend-ez/login', methods = ['GET', 'POST'])
+
+@main.route('/spend-ez/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     month_num, year = General.find_today()
@@ -23,66 +24,88 @@ def login():
             flash('Username or Password not correct. Login Unsuccessful.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
+
 @main.route('/spend-ez/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('main.login'))
 
+
 """
 DASHBOARD ROUTES
 """
 
-@main.route('/spend-ez/landing/<int:month_num>/<int:year>/', methods = ['GET', 'POST'])
+
+@main.route('/spend-ez/landing/<int:month_num>/<int:year>/', methods=['GET', 'POST'])
 @login_required
 def landing(month_num, year):
-    
-    user = User.query.filter_by(username=current_user.username).first() # Logged in user DB object/query
-    trans = Transactions.month_transactions(user, month_num, year) #Transaction from this time for user
-    
-    sort_trans = reversed(sorted((t for t in trans), key = lambda x: x.date_posted))
-    ytd_spend, max_cat = Transactions.ytd_transactions(user, year) #YTD Metrics
-    budget = user.budget #User stored budget
-    total_spend = round(sum([x.amount for x in trans]),2) #User Transactions amounts
-    budget_percent = (round((total_spend/budget)*100, 2))    
 
-    labels, values = Transactions.plot_gen(user, month_num, year) #Bar Plot Generator
-    
-    time_travel = TimeTravel() # Change view date/year
-    transaction_submit = Expend() # Submit a New Transaction
-    update_budget = UpdateBudget() # Change your budget
+    # Logged in user DB object/query
+    user = User.query.filter_by(username=current_user.username).first()
+    # Transaction from this time for user
+    trans = Transactions.month_transactions(user, month_num, year)
+    #METRICS
+    sort_trans = reversed(
+        sorted((t for t in trans), key=lambda x: x.date_posted))
+    ytd_spend, max_cat = Transactions.ytd_transactions(
+        user, year)  # YTD Metrics
+    budget = user.budget  # User stored budget
+    total_spend = round(sum([x.amount for x in trans]),
+                        2)  # User Transactions amounts
+    budget_percent = (round((total_spend/budget)*100, 2))
+    modal_dict = Transactions.year_modal(user, year)
+    #FIGS
+    labels, values = Transactions.plot_gen(
+        user, month_num, year)  # Bar Plot Generator
+    pie_labels, pie_values, colors = Transactions.model_pie_gen(
+        user, year)  # Modal pie Generator
+    motal_percs = Transactions.pie_sub_data(pie_labels, pie_values)
 
-    if time_travel.validate_on_submit(): 
+    #FORMS
+    time_travel = TimeTravel()  # Change view date/year
+    transaction_submit = Expend()  # Submit a New Transaction
+    update_budget = UpdateBudget()  # Change your budget
+
+    if time_travel.validate_on_submit():
         if time_travel.years != None and time_travel.months != None:
-            return redirect(url_for('main.landing', month_num=time_travel.months.data, 
+            return redirect(url_for('main.landing',
+                                    month_num=time_travel.months.data,
                                     year=time_travel.years.data))
 
     if update_budget.validate_on_submit():
         user.budget = update_budget.new_budget.data
         db.session.commit()
         return redirect(url_for('main.landing', month_num=month_num, year=year))
-    if transaction_submit.validate_on_submit(): # Submit a Transaction
-        trans = Transactions(user_id = user.id, amount=transaction_submit.amount.data, 
-                            note=transaction_submit.note.data, 
-                            cat=transaction_submit.category.data,
-                            date_posted=transaction_submit.date_posted.data)
+    if transaction_submit.validate_on_submit():  # Submit a Transaction
+        trans = Transactions(user_id=user.id, amount=transaction_submit.amount.data,
+                             note=transaction_submit.note.data,
+                             cat=transaction_submit.category.data,
+                             date_posted=transaction_submit.date_posted.data)
         db.session.add(trans)
         db.session.commit()
-        flash(f'Succesfully Submitted ${transaction_submit.amount.data} Expense!', 'success')
+        flash(
+            f'Succesfully Submitted ${transaction_submit.amount.data} Expense!', 'success')
         return redirect(url_for('main.landing', month_num=month_num, year=year))
-    return render_template('index.html', 
-                            time_travel = time_travel, transaction_submit = transaction_submit, 
-                            update_budget = update_budget, 
-                            month_num=month_num, month = General.month_translate(month_num), year = year, 
-                            trans = sort_trans, budget = budget, ytd_spend = ytd_spend,
-                            max_cat = max_cat, total_spend = total_spend, budget_percent = budget_percent, 
-                            max=int(round(budget*.40, -2)),labels=labels, values=values)
+    return render_template('index.html',
+                           time_travel=time_travel, transaction_submit=transaction_submit,
+                           update_budget=update_budget, modal_dict=modal_dict,
+                           month_num=month_num, month=General.month_translate(
+                               month_num),
+                           year=year, trans=sort_trans, budget=budget, ytd_spend=ytd_spend,
+                           max_cat=max_cat, total_spend=total_spend,
+                           budget_percent=budget_percent,
+                           max=int(round(budget*.40, -2)), labels=labels, values=values,
+                           set=zip(pie_labels, pie_values, colors), modal_percs=motal_percs,
+                           )
+
 
 """
 DATA PASSING/UPDATING ROUTES
 """
 
-@main.route("/spend-ez/landing/<int:trans_id>/delete<int:month_num>/<int:year>", methods = ['GET', 'POST'])
+
+@main.route("/spend-ez/landing/<int:trans_id>/delete<int:month_num>/<int:year>", methods=['GET', 'POST'])
 @login_required
 def delete_transaction(trans_id, month_num, year):
     trans = Transactions.query.get_or_404(trans_id)
@@ -91,7 +114,8 @@ def delete_transaction(trans_id, month_num, year):
     flash('Your transaction has been deleted!', 'success')
     return redirect(url_for('main.landing', month_num=month_num, year=year))
 
-@main.route("/spend-ez/reload/", methods = ['GET', 'POST'])
+
+@main.route("/spend-ez/reload/", methods=['GET', 'POST'])
 @login_required
 def reload():
     month_num, year = General.find_today()
