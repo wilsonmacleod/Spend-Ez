@@ -19,6 +19,10 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
             login_user(user)
+            if user.username == "ez_demo":
+                if General.check(user, month_num, year):
+                    flash('Dynamically Generated Transactions Succesful!', 'success')
+                    General.demo_transactions(user)
             return redirect(url_for('main.landing', month_num=month_num, year=year))
         else:
             flash('Username or Password not correct. Login Unsuccessful.', 'danger')

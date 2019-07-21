@@ -1,0 +1,15 @@
+TODO:
+
+**SCRIPT TO UPDATE/TEST DEMO ACT**
+
+-update-bugdet form update for laptop screens
+-tests
+-Refactor project tree (models.py?)
+-Add accordian "excel" table beneath plot table?
+-tighter expense submission rules
+-Downloadable reports
+-Goal setting
+-Better historical budget tracking
+-Clickable sorting methods
+-Projections? (ML)
+-Open sign-up?

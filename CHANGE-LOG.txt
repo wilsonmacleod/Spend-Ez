@@ -1,6 +1,6 @@
 ==SPEND-EZ CHANGELOG==
 
--version 1.5-
+*-version 1.5-*
 
 -Added JS update budget form
 -Added JS onload feedback emojis
@@ -20,17 +20,7 @@
 		-List of % Spend per category for chosen year
 -Resized UI
 
-TODO:
+-v 1.6-
 
-**SCRIPT TO UPDATE/TEST DEMO ACT**
-
--Refactor project tree (models.py?)
--Add accordian "excel" table beneath plot table?
--tighter expense submission rules
--Downloadable reports
--Goal setting
--Better historical budget tracking
--Clickable sorting methods
--Projections? (ML)
--Open sign-up?
-
+-Added dynamically generating transactions 
+for demo account login

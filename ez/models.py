@@ -1,4 +1,5 @@
 import datetime
+import random
 from ez import db, login_manager
 from flask_login import UserMixin
 
@@ -18,7 +19,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.id}, {self.username}', '{self.password}, {self.budget})"
-
 
 class Transactions(db.Model):
 
@@ -140,8 +140,62 @@ class General():
         return month_num, today.year
 
     def month_translate(month_num):
-        month_dict = {'1': 'January', '2': 'February', '3': 'March', '4': 'April',
-                      '5': 'May', '6': 'June', '7': 'July',
+        month_dict = {'1': 'January', '2': 'February',
+                      '3': 'March', '4': 'April',
+                      '5': 'May', '6': 'June',
+                      '7': 'July',
                       '8': 'August', '9': 'September',
-                      '10': 'October', '11': 'November', '12': 'December'}
+                      '10': 'October', '11': 'November',
+                      '12': 'December'
+                      }
         return month_dict[str(month_num)]
+
+    def check(user, mn, year): 
+        trans = Transactions.month_transactions(user, mn, year)
+        if len(trans) < 10:
+            return True
+        else:
+            return False
+
+    def rando_dates(rando):
+        mn, year = General.find_today()
+        dplist = []
+        for each in range(0, len(rando)):
+            day = 1
+            try:
+                day += random.randint(0, 31)
+                dplist.append(datetime.date(year, mn, day))
+            except ValueError:
+                day = 1
+                day += random.randint(0, 22)
+                dplist.append(datetime.date(year, mn, day))
+        return dplist
+
+    def rando_notes():
+        notes = ["This is an automated note", 
+                "No creativity Demo Note",
+                    "Is it harder to say or spell anemone?",
+                    "Please visit my creator's Github-https://github.com/wilsonmacleod",
+                    "I generate myself, can YOU do that?"
+                    ]
+        flip = random.randint(0, 11)
+        if flip <= 3:
+            note = notes[random.randint(0, 4)]
+            return note
+        else:
+            return None
+
+    def demo_transactions(user):
+        rando = [round((random.random())*100, 2)
+                    for rando in range(1, random.randint(10, 20))]
+        cats = [i for i in Transactions.dict_cheese() if i != "Total"]
+        dplist = General.rando_dates(rando)
+        index = 0
+        for each in rando:
+            trans = Transactions(user_id=user.id, amount=each,
+                                    note=General.rando_notes(),
+                                    cat=cats[random.randint(0, 8)],
+                                    date_posted=dplist[index])
+            index += 1
+            db.session.add(trans)
+            db.session.commit()
