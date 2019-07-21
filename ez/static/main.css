@@ -1212,7 +1212,7 @@ a.btn.disabled{
 }
 .btn-dark:hover{
     color:#fff;
-    background-color:#484a54;
+    background-color:#4e73df;
     border-color:#42444e
 }
 .btn-dark:focus{
@@ -1797,11 +1797,25 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     -ms-flex-direction:column;
     flex-direction:column;
     min-width:0;
-    word-wrap:break-word;
     background-color:#fff;
     background-clip:border-box;
     border:1px solid #e3e6f0;
     border-radius:.35rem
+}
+.card-side{
+    position:relative;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    min-width:100%;
+    background-color:#fff;
+    background-clip:border-box;
+    border:1px solid #e3e6f0;
+    border-radius:.25rem
 }
 .card>hr{
     margin-right:0;
@@ -5344,7 +5358,7 @@ input[type="range"] {
     right: 0;
     top: 100px;
     margin-left: auto;
-    margin-right: 800px;
+    margin-right: auto;
     width: 650px;
     height: auto;
     background-color: #fff;

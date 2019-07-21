@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 from datetime import datetime
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()], default="ez_demo")
+    username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
@@ -41,5 +41,5 @@ class TimeTravel(FlaskForm):
     submit = SubmitField('Go')
 
 class UpdateBudget(FlaskForm):
-    new_budget = FloatField(validators=[DataRequired()], )
+    new_budget = FloatField(validators=[DataRequired()])
     submit = SubmitField('Update')

@@ -11,7 +11,7 @@
 	-changed btn colors
 	-removed unnecessary BS4 template CSS
 	-Stylized default scrollbar on transaction history
--Added default username to point to demo account for easier demo access
+-Added demo/public login button
 -Add pop-up modal of selected years summary
 	Features:
 		-Added accordian menu

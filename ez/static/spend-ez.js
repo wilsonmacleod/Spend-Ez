@@ -1,4 +1,4 @@
-window.onload = feedback
+window.onload = feedback;
 
 function feedback() { //"budget spent" feedback controller
   var img = document.getElementById('howIfeel');
