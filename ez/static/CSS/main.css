@@ -5260,9 +5260,8 @@ a:focus{
 }
 .bN-field{
     padding:.50rem .50rem;
-    max-height: 36px;
     background-color:#f8f9fc;
-    border-bottom:.5px solid #e3e6f0;
+    border-left: 3px solid #4e73df;
     opacity:.8;
 }
 .bN-field:hover{
@@ -5391,7 +5390,7 @@ input[type="range"] {
     position: absolute;
     left: 0;
     right: 0;
-    top: 100px;
+    top: 250px;
     margin-left: auto;
     margin-right: auto;
     width: 650px;
@@ -5406,13 +5405,15 @@ input[type="range"] {
     position: absolute;
     left: 0;
     right: 0;
-    top: 100px;
+    top: 255px;
     margin-left: auto;
     margin-right: auto;
     width: 300px;
     height: 30%;
     background-color: #fff;
-    border: 1.5px solid black;
+    box-shadow: gray;
+    border: .5px solid black;
+    border-left: 3px solid #4e73df;
     z-index:1000;
 }
 .con {

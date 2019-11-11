@@ -114,6 +114,37 @@ if(editBtns.length > 0){
     editBtns[x].addEventListener("click", function () {
     const container = document.getElementById("TransModal");
     container.style.visibility = (container.style.visibility == "visible") ? "hidden" : "visible";
+    
+    let selectedID = event.target.value;
+
+    let selectedAmount = document.getElementById("amount-"+selectedID);
+    selectedAmount = selectedAmount.innerHTML.replace("$", "");
+    let amount = document.getElementById("et-amount");
+    amount.value = selectedAmount;
+    
+    let selectedCat = document.getElementById("cat-"+selectedID);
+    selectedCat = selectedCat.innerHTML.replace("[", "")
+    selectedCat = selectedCat.replace("]", "")
+    selectedCat = selectedCat.replace(/ /g,"")
+    let cat = document.getElementById("et-category");
+    cat.value = selectedCat;
+
+    let selectedDate = document.getElementById("date-"+selectedID);
+    selectedDate = selectedDate.innerHTML.replace(/ /g,"");
+    selectedDate = selectedDate.replace("\n","");
+    selectedDate = selectedDate.replace("\n","");
+    let date = document.getElementById("et-date_posted");
+    date.value = selectedDate;
+
+    let selectedNote = document.getElementById("note-"+selectedID);
+    let note = document.getElementById("et-note");
+    note.value = selectedNote.innerHTML;
+
+    let transID = document.getElementById("et-transId");
+    idVal = parseInt(selectedID);
+    console.log(typeof idVal)
+    transID.value = idVal;
+    console.log(typeof transID.value)
   })}
 }
 
@@ -121,3 +152,4 @@ document.getElementById("etClose").addEventListener("click", function () {
   const container = document.getElementById("TransModal");
   container.style.visibility = (container.style.visibility == "visible") ? "hidden" : "visible";
 })
+

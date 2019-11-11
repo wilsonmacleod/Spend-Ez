@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FloatField, SelectField, DateField, RadioField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, FloatField, SelectField, DateField, RadioField
 from wtforms.validators import DataRequired, Length, Email
 
 from datetime import datetime
@@ -22,6 +22,20 @@ class Expend(FlaskForm):
     note = StringField()
     submit = SubmitField('Submit')
 
+class EditTransaction(FlaskForm):
+    amount = FloatField(validators=[DataRequired()])
+    category_choices = [('Food', 'Food'), ('Travel', 'Travel'), 
+                        ('Entertainment', 'Entertainment'), ('Education', 'Education'), 
+                        ('Transportation', 'Transportation'), 
+                        ('Personal', 'Personal'), ('Health', 'Health'), 
+                        ('Gift', 'Gift'), ('Other', 'Other')]
+    category = SelectField(u'category', validators=[DataRequired()], 
+                            choices = category_choices, coerce=str)
+    date_posted = DateField()
+    note = StringField()
+    et_submit = SubmitField('Submit')
+    trans_id = StringField()
+
 class TimeTravel(FlaskForm):
 
     month_choices = [(None, 'Month'), ('1', 'January'), ('2', 'February'), ('3', 'March'), 
@@ -42,17 +56,3 @@ class TimeTravel(FlaskForm):
 class UpdateBudget(FlaskForm):
     new_budget = FloatField(validators=[DataRequired()])
     submit = SubmitField('Update')
-
-class EditTransaction(FlaskForm):
-    amount = FloatField(validators=[DataRequired()])
-    category_choices = [('Food', 'Food'), ('Travel', 'Travel'), 
-                        ('Entertainment', 'Entertainment'), ('Education', 'Education'), 
-                        ('Transportation', 'Transportation'), 
-                        ('Personal', 'Personal'), ('Health', 'Health'), 
-                        ('Gift', 'Gift'), ('Other', 'Other')]
-    category = SelectField(u'category', validators=[DataRequired()], 
-                            choices = category_choices, coerce=str)
-    date_posted = DateField()
-    note = StringField()
-    submit = SubmitField('Submit')
-    trans_id=HiddenField()

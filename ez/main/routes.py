@@ -83,6 +83,28 @@ def landing(month_num, year):
         user.budget = update_budget.new_budget.data
         db.session.commit()
         return redirect(url_for('main.landing', month_num=month_num, year=year))
+    
+    if edit_transaction.validate_on_submit():  # Edit a Transaction
+
+        try: #this is hacky to avoid this form when should be transaction_submit.validate_on_submit()
+            trans_id = edit_transaction.trans_id.data
+            old_trans = Transactions.query.filter_by(id=int(trans_id)).first()
+            db.session.delete(old_trans)
+            db.session.commit()
+
+            new_trans = Transactions(user_id=user.id, amount=edit_transaction.amount.data,
+                            note=edit_transaction.note.data,
+                            cat=edit_transaction.category.data,
+                            date_posted=edit_transaction.date_posted.data)
+            db.session.add(new_trans)
+            db.session.commit()
+            flash(
+                f'Succesfully Edited ${edit_transaction.amount.data} {edit_transaction.category.data} Expense!', 'info'
+                )
+            return redirect(url_for('main.landing', month_num=month_num, year=year))
+        except ValueError:
+            pass
+
     if transaction_submit.validate_on_submit():  # Submit a Transaction
         trans = Transactions(user_id=user.id, amount=transaction_submit.amount.data,
                              note=transaction_submit.note.data,
@@ -91,8 +113,9 @@ def landing(month_num, year):
         db.session.add(trans)
         db.session.commit()
         flash(
-            f'Succesfully Submitted ${transaction_submit.amount.data} Expense!', 'success')
+            f'Succesfully Submitted ${transaction_submit.amount.data} {transaction_submit.category.data} Expense!', 'success')
         return redirect(url_for('main.landing', month_num=month_num, year=year))
+
     return render_template('index.html',
                            time_travel=time_travel, transaction_submit=transaction_submit,
                            update_budget=update_budget, edit_transaction=edit_transaction,
@@ -103,8 +126,7 @@ def landing(month_num, year):
                            budget_percent=budget_percent,
                            max=int(round(budget*.40, -2)), labels=labels, values=values,
                            set=zip(pie_labels, pie_values, colors), modal_percs=modal_percs,
-                           logged_in_user = user.username, 
-                           )
+                           logged_in_user = user.username)
 
 """
 DATA PASSING/UPDATING ROUTES
@@ -116,12 +138,7 @@ def delete_transaction(trans_id, month_num, year):
     trans = Transactions.query.get_or_404(trans_id)
     db.session.delete(trans)
     db.session.commit()
-    flash('Your transaction has been deleted!', 'success')
-    return redirect(url_for('main.landing', month_num=month_num, year=year))
-
-@main.route("/spend-ez/landing/<int:trans_id>/edit<int:month_num>/<int:year>", methods=['GET', 'POST'])
-@login_required
-def edit_transaction(trans_id, month_num, year):
+    flash('Your transaction has been deleted!', 'warning')
     return redirect(url_for('main.landing', month_num=month_num, year=year))
 
 @main.route("/spend-ez/reload/", methods=['GET', 'POST'])

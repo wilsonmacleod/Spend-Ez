@@ -183,7 +183,7 @@ class General():
             note = notes[random.randint(0, 4)]
             return note
         else:
-            return None
+            return ""
 
     def demo_transactions(user):
         rando = [round((random.random())*100, 2)

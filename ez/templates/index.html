@@ -77,6 +77,7 @@
       <!-- Divider -->
  <form method="POST" action="">
         {{ transaction_submit.hidden_tag() }}
+        {{ transaction_submit.csrf_token }}
         <div class="form-group">
           {% if transaction_submit.amount.errors %}
             {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
@@ -98,8 +99,9 @@
         {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
   </form>
       <hr class="sidebar-divider my-1 mt-3">
+      <button class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2 mt-2">Edit Your Categories</button>
       <div class="navigation">
-        <div class="nav-item active mt-4">
+        <div class="nav-item active mt-2">
           <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2"
             href="{{ url_for('main.logout')}}">
             <div class="logout">LOGOUT</div>
@@ -193,8 +195,6 @@
                           <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget"
                             value={{ budget }} min="150" max={{ budget+1000 }}>
                           <div class="inline-block">
-                            <a class="ml-2" href="#" title="+100 Max Range" id="budgetIncrease"><img
-                                src="/static/icons/add.png"></a>
                             <a href="{{ url_for('main.reload')}}" type="btn" class="close ml-2">&times;</a>
                           </div>
                         </div>
@@ -363,12 +363,14 @@
                             {% for t in trans %}
                             <article class="media content-section">
                               <div class="media-body ml-4">
-                                <div class="article-metadata" >
-                                  <strong class="text-muted">{{ t.date_posted.strftime('%Y-%m-%d') }}</strong>
+                                  <strong class="text-muted">
+                                <div class="article-metadata" id="date-{{ t.id }}">
+                                    {{ t.date_posted.strftime('%Y-%m-%d') }}
                                 </div>
-                                <h4 style="color: #4e73df" class="mt-2"><strong>${{ t.amount }}</strong></h4>
-                                <p>{{ t.note }} <br>
-                                <strong>[ {{ t.cat }} ]</strong>
+                              </strong>
+                                <strong><h4 style="color: #4e73df" class="mt-2" id="amount-{{ t.id }}">${{ t.amount }}</h4></strong>
+                                <div id="note-{{ t.id }}">{{ t.note }} </div><br>
+                                <strong><div id="cat-{{ t.id }}">[ {{ t.cat }} ]</div></strong>
                               </div>
                               <div>
                                 <form
@@ -378,8 +380,8 @@
                                   <input class="btn btn-danger" type="submit" value="Delete">
                                 </form>
                                 </div>
-                                <div class="mt-1 editTrans" value={{ t.id }}>
-                                    <button class="btn btn-info" type="submit">Edit</button>
+                                <div class="mt-1 editTrans">
+                                    <button class="btn btn-info" type="submit" value={{ t.id }}>Edit</button>
                             </div>
                               </div>
                             </article>
@@ -485,6 +487,7 @@
               <article class="media content-section ml-5">
               <form method="POST" action="">
                   {{ edit_transaction.hidden_tag() }}
+                  {{ edit_transaction.csrf_token }}
                   <div class="form-group">
                     {% if edit_transaction.amount.errors %}
                       {{ edit_transaction.amount(class="form-control form-control-sm is-invalid") }}
@@ -498,13 +501,13 @@
                     {% endif %}
                     <p>
                     </p>
-                    {{ edit_transaction.category(class = "form-control form-control-sm mt-3", id="et-category") }}
+                    {{ edit_transaction.category(class="form-control form-control-sm mt-3", id="et-category") }}
                     {{ edit_transaction.date_posted(type="date", class = "form-control form-control-sm mt-3", id="et-date_posted") }}
                   </div>
                   {{ edit_transaction.note(class="form-control form-control-sm", id="et-note") }}
                   <p></p>
-                  {{ edit_transaction.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
-                  {{ edit_transaction.trans_id(id="et-transId") }}
+                  {{ edit_transaction.et_submit(class="d-none d-sm-inline-block btn btn-sm btn-success") }}
+                  {{ edit_transaction.trans_id(class="hidden", id="et-transId") }}
             </form>
           </article>
           </div>
