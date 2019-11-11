@@ -37,73 +37,75 @@
           <i class="fas fa-laugh-wink"></i>
         </div>
         <div class="sidebar-brand-text mt-3">
-          <h2>Spend EZ</h2>
+          <h2 class="navtitle">Spend EZ</h2>
         </div>
 
       </a>
+      <p></p>
       <!-- Divider -->
       <hr class="sidebar-divider my-1">
 
 
       <!-- Heading -->
-
+      <p></p>
       <div class="sidebar-heading">
         <h5> Choose Date </h5>
       </div>
       <!-- Divider -->
-      <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <div class="form-group">
         <form action="" method="POST">
           {{time_travel.hidden_tag()}}
           <div>
-            {{ time_travel.years(class="wform-control-sm mx-3") }}
+            {{ time_travel.months(type="date", class = "form-control form-control-sm mt-1 ml-3") }}
             <p></p>
-            {{ time_travel.months(class="wform-control-sm mx-3") }}
+            {{ time_travel.years(type="date", class = "form-control form-control-sm mt-1 ml-3") }}
             {{ time_travel.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow ml-3 mt-3") }}
         </form>
       </div>
+      <p></p>
       <div class="sidebar-heading">
-        <a href="{{ url_for('main.reload')}}">
-          <div class="mb-2 mt-2"><small style="color:white">Click Here for Today</small>
-        </a>
+          <a href="{{ url_for('main.reload')}}">
+              <div class="mb-2 mt-2"><small style="color:white">Click Here for Today</small>
+            </a>
+            <p></p>
+          <div class="mb-2 mt-2">
 
         <hr class="sidebar-divider mt-2">
         <h5> Submit Expense </h5>
       </div>
       <!-- Divider -->
-      <hr class="sidebar-divider">
-      <form method="POST" action="">
+ <form method="POST" action="">
         {{ transaction_submit.hidden_tag() }}
         <div class="form-group">
           {% if transaction_submit.amount.errors %}
-          {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in transaction_submit.amount.errors %}
-            <span>{{ error }}</span>
-            {% endfor %}
-          </div>
+            {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in transaction_submit.amount.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
           {% else %}
-          {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
+              {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
           {% endif %}
           <p>
           </p>
-          {{ transaction_submit.category(class = "form-control form-control-sm mt-3") }}
+          {{ transaction_submit.category }}
           {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
         </div>
         {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
         <p></p>
         {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
-      </form>
+  </form>
       <hr class="sidebar-divider my-1 mt-3">
       <div class="navigation">
-        <li class="nav-item active mt-4">
+        <div class="nav-item active mt-4">
           <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2"
             href="{{ url_for('main.logout')}}">
             <div class="logout">LOGOUT</div>
           </a>
       </div>
-      </li>
+      </div>
     </ul>
     <!-- End of Sidebar -->
 
@@ -121,7 +123,7 @@
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
           <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-          <li class="nav-item dropdown no-arrow d-sm-none">
+          <div class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-search fa-fw"></i>
@@ -153,7 +155,9 @@
           <!-- Page Heading -->
           <div class="row mt-3 ml-3">
             <div class="d-sm-flex float-items-center justify-content-between mb-2">
-              <h1 class="h3 mt-3 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
+              <div>Hi {{ logged_in_user }}, a look at your:<br>
+              <h1 class="h3 mt-1 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
+            </div>
             </div>
             <div class="col-sm-3 sm-2">
               {% with messages = get_flashed_messages(with_categories=true) %}
@@ -167,7 +171,6 @@
               {% endwith %}
             </div>
           </div>
-          {% block content %}{% endblock %}
           <!-- Content Row -->
           <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
@@ -343,7 +346,7 @@
                       </div>
                       </div>
                       <div class="col-xl-3 col-lg-2">
-                        <div class="card-side shadow mb-4">
+                        <div class="transhistory shadow mb-4">
                           <!-- Card Header - Dropdown -->
                           <div class="card-header py-3 d-flex flex-row float-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Transaction History</h6>
@@ -359,20 +362,25 @@
                           <div class="card-body card-text">
                             {% for t in trans %}
                             <article class="media content-section">
-                              <div class="media-body">
-                                <div class="article-metadata ">
-                                  <small class="text-muted">{{ t.date_posted.strftime('%Y-%m-%d') }}</small>
+                              <div class="media-body ml-4">
+                                <div class="article-metadata" >
+                                  <strong class="text-muted">{{ t.date_posted.strftime('%Y-%m-%d') }}</strong>
                                 </div>
-                                <h2><a><strong>${{ t.amount }}</strong></a></h2>
-                                <p>{{ t.note }}</p>
-                                <p><strong>[ {{ t.cat }} ]</strong></p>
+                                <h4 style="color: #4e73df" class="mt-2"><strong>${{ t.amount }}</strong></h4>
+                                <p>{{ t.note }} <br>
+                                <strong>[ {{ t.cat }} ]</strong>
                               </div>
                               <div>
                                 <form
                                   action="{{ url_for('main.delete_transaction', trans_id=t.id, month_num=month_num, year=year) }}"
                                   method="POST">
+                                  <div>
                                   <input class="btn btn-danger" type="submit" value="Delete">
                                 </form>
+                                </div>
+                                <div class="mt-1 editTrans" value={{ t.id }}>
+                                    <button class="btn btn-info" type="submit">Edit</button>
+                            </div>
                               </div>
                             </article>
                             <hr class="divider my-1">
@@ -471,7 +479,34 @@
           </div>
           </div>
           </div>
-
+          </div>
+          <article id="TransModal" class="et-modal">
+              <a class="close" id="etClose">&times;</a>
+              <article class="media content-section ml-5">
+              <form method="POST" action="">
+                  {{ edit_transaction.hidden_tag() }}
+                  <div class="form-group">
+                    {% if edit_transaction.amount.errors %}
+                      {{ edit_transaction.amount(class="form-control form-control-sm is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in edit_transaction.amount.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ edit_transaction.amount(class="form-control form-control-sm mt-3", id="et-amount") }}
+                    {% endif %}
+                    <p>
+                    </p>
+                    {{ edit_transaction.category(class = "form-control form-control-sm mt-3", id="et-category") }}
+                    {{ edit_transaction.date_posted(type="date", class = "form-control form-control-sm mt-3", id="et-date_posted") }}
+                  </div>
+                  {{ edit_transaction.note(class="form-control form-control-sm", id="et-note") }}
+                  <p></p>
+                  {{ edit_transaction.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
+                  {{ edit_transaction.trans_id(id="et-transId") }}
+            </form>
+          </article>
           </div>
 
           <!-- Scroll to Top Button-->

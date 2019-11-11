@@ -58,7 +58,8 @@ body{
     line-height:1.5;
     color:#858796;
     text-align:left;
-    background-color:#fff
+    background-color:#fff;
+    overflow:hidden;
 }
 [tabindex="-1"]:focus{
     outline:0!important
@@ -83,6 +84,10 @@ ul{
 }
 ul ul{
     margin-bottom:0
+}
+li {
+    display: block;
+    margin-left: -20%;
 }
 strong{
     font-weight:bolder
@@ -183,7 +188,7 @@ template{
     font-size:2rem
 }
 .h3,h3{
-    font-size:1.75rem
+    font-size:1.75rem;
 }
 .h4,h4{
     font-size:1.5rem
@@ -1817,6 +1822,22 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     border:1px solid #e3e6f0;
     border-radius:.25rem
 }
+
+.transhistory{
+    position:relative;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    min-width:100%;
+    height: 650px;
+    background-color:#fff;
+    background-clip:border-box;
+    border:1px solid #e3e6f0
+}
 .card>hr{
     margin-right:0;
     margin-left:0
@@ -1834,7 +1855,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     -ms-flex:1 1 auto;
     flex:1 1 auto;
     padding:1.25rem;
-    max-height: 360px;
+    max-height: 100%;
 }
 .lg-card-body{
     -webkit-box-flex:1;
@@ -4721,7 +4742,19 @@ a:focus{
     text-align:center;
     text-transform:uppercase;
     letter-spacing:.05rem;
-    z-index:1
+    z-index:1;
+    margin-top: -10%;
+}
+
+.navtitle {
+    font-size:2em;
+    font-weight:800;
+    text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+    margin-bottom: 20%;
 }
 .sidebar .sidebar-brand .sidebar-brand-icon i{
     font-size:2rem
@@ -4896,9 +4929,10 @@ a:focus{
     color:#d1d3e2
 }
 .chart-area{
+    overflow: hidden;
     position:relative;
     height:20rem;
-    width:100%
+    width:95%
 }
 .chart-container{
     position:relative;
@@ -5267,12 +5301,13 @@ position: relative;
     float:right;
     font-weight:100;
     line-height:1;
-    color:#000;
+    color:#4e73df;
     text-shadow:0 1px 0 #fff;
     opacity:1;
     margin-bottom: 15px;
     cursor: pointer;
     font-size: 25px;
+    margin: 5%;
 }
 .close:hover{
     font-weight:1000;
@@ -5364,7 +5399,21 @@ input[type="range"] {
     background-color: #fff;
     border: 1.5px solid black;
     z-index:1000;
+}
 
+.et-modal {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 30%;
+    background-color: #fff;
+    border: 1.5px solid black;
+    z-index:1000;
 }
 .con {
     border: .2px solid gray;
