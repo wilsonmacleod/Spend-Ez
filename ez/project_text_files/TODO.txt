@@ -2,14 +2,17 @@ TODO:
 
 **SCRIPT TO UPDATE/TEST DEMO ACT**
 
--update-bugdet form update for laptop screens
--tests
--Refactor project tree (models.py?)
--Add accordian "excel" table beneath plot table?
--tighter expense submission rules
+-unit tests
+-Refactor 
+    -models.py
+    -routes.py
+-media query
+-mobile compatibility
 -Downloadable reports
 -Goal setting
--Better historical budget tracking
--Clickable sorting methods
+-Improved historical budget tracking
+    -monthly budgets (instead of 1 scaling budget per account)
+-Clickable sorting methods for trans history
 -Projections? (ML)
--Open sign-up?
+-Open sign-up
+    -new server infastructure and re-deploy

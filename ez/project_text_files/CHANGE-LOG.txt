@@ -1,6 +1,6 @@
-==SPEND-EZ CHANGELOG==
+===SPEND-EZ CHANGELOG===
 
-*-version 1.5-*
+*--version 1.5--*
 
 -Added JS update budget form
 -Added JS onload feedback emojis
@@ -20,7 +20,26 @@
 		-List of % Spend per category for chosen year
 -Resized UI
 
--v 1.6-
+
+--v 1.6--
 
 -Added dynamically generating transactions 
 for demo account login
+
+
+--v 1.7--
+
+-folder restructure, organization and file rename for scalability and clarity
+-local db populating scripts added
+
+
+--v 1.8--
+
+-Added ability to edit historic transactions
+	-done via form in pop-up modal
+-Added new table supporting transaction categories on a per-account basis
+	-added functionality to edit the transaction categories on your account
+-UI change to submit expense form
+-UI and functionality change to "time travel" form"
+-UI tweaks and clean-up to update budget form
+-Slight HTML clean and CSS tweaks for overall appearance
