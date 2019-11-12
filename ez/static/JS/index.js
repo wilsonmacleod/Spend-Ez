@@ -153,3 +153,22 @@ document.getElementById("etClose").addEventListener("click", function () {
   container.style.visibility = (container.style.visibility == "visible") ? "hidden" : "visible";
 })
 
+//Category edit controls
+
+const catEditBTN = document.getElementById("catEditBTN");
+catEditBTN.addEventListener("click", function () {
+  const toggleForm = document.getElementById("catEditFormField");
+  toggleForm.classList.toggle("hidden");
+  const clean = document.getElementById("cats");
+  clean.classList.add("hidden");
+  catEditBTN.classList.add("hidden");
+})
+
+const editCatExit = document.getElementById("editCatExit");
+editCatExit.addEventListener("click", function () {
+  const toggleForm = document.getElementById("catEditFormField");
+  toggleForm.classList.toggle("hidden");
+  const clean = document.getElementById("cats");
+  clean.classList.remove("hidden");
+  catEditBTN.classList.remove("hidden");
+})

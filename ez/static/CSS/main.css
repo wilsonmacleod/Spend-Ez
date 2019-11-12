@@ -1462,6 +1462,10 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     clip:rect(0,0,0,0);
     pointer-events:none
 }
+
+.btn-xsm{
+    font-size: 100%;
+}
 .input-group{
     position:relative;
     display:-webkit-box;

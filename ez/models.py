@@ -1,13 +1,12 @@
 import datetime
 import random
-from ez import db, login_manager
 from flask_login import UserMixin
 
+from ez import db, login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 class User(db.Model, UserMixin):
 
@@ -15,10 +14,29 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     budget = db.Column(db.Integer, nullable=True)
-    trans = db.relationship('Transactions', backref='author', lazy=True)
+    trans = db.relationship('Transactions', backref='author', lazy=True) 
+    trans_cats = db.relationship('TransCategories', backref='author', lazy=True) 
 
     def __repr__(self):
         return f"User('{self.id}, {self.username}', '{self.password}, {self.budget})"
+
+class TransCategories(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f"User('{self.id}', '{self.user_id}', '{self.name}')"
+
+    def change_category(user, old, new):
+        old_cat = TransCategories.query.filter_by(user_id=user.id).filter_by(name=old).first()
+        new_cat = TransCategories(id=old_cat.id, user_id=user.id, name=new)
+        db.session.delete(old_cat)
+        db.session.commit()
+        db.session.add(new_cat)
+        db.session.commit()
+
 
 class Transactions(db.Model):
 
@@ -43,59 +61,71 @@ class Transactions(db.Model):
                 month_trans.append(each)
         return month_trans
 
-    def dict_cheese():  # hacky way to instance empty "template" dict
-        inner_dict = {
-            'Food': 0, 'Travel': 0,
-            'Entertainment': 0, 'Education': 0,
-            'Transportation': 0, 'Personal': 0,
-            'Health': 0, 'Gift': 0, 'Other': 0,
-            'Total': 0
-        }
-        return inner_dict
+    def dict_cheese(user):
+        pull_user_cats = TransCategories.query.filter_by(user_id=user.id).all()
+        cats = []
+        for each in pull_user_cats:
+            cats.append(each.name)
+        return { key:0 for key in cats}  
+    
+    def form_cat_choices(user):
+        inner_dict = Transactions.dict_cheese(user)
+        for key, value in inner_dict.items():
+            inner_dict[key] = key
+        return list(inner_dict.items())
 
     def ytd_transactions(user, year):
         trans = user.trans
         ytd = []
-        sort_dict = Transactions.dict_cheese()
+        sort_dict = Transactions.dict_cheese(user)
         del sort_dict['Total']
         for each in trans:
             post = each.date_posted
             if post.year == year:
                 ytd.append(each)
-                sort_dict[each.cat] += each.amount
+                try:
+                    sort_dict[each.cat] += each.amount
+                except KeyError: 
+                    sort_dict["Other"] += each.amount
         max_cat = max(sort_dict.items(), key=lambda k: k[1])
         return round(sum([x.amount for x in ytd]), 2), max_cat
 
     def year_modal(user, year):
         trans = user.trans
         t_dict = {
-            'January': Transactions.dict_cheese(),
-            'February': Transactions.dict_cheese(),
-            'March': Transactions.dict_cheese(),
-            'April': Transactions.dict_cheese(),
-            'May': Transactions.dict_cheese(),
-            'June': Transactions.dict_cheese(),
-            'July': Transactions.dict_cheese(),
-            'August': Transactions.dict_cheese(),
-            'September': Transactions.dict_cheese(),
-            'October': Transactions.dict_cheese(),
-            'November': Transactions.dict_cheese(),
-            'December': Transactions.dict_cheese(),
+            'January': Transactions.dict_cheese(user),
+            'February': Transactions.dict_cheese(user),
+            'March': Transactions.dict_cheese(user),
+            'April': Transactions.dict_cheese(user),
+            'May': Transactions.dict_cheese(user),
+            'June': Transactions.dict_cheese(user),
+            'July': Transactions.dict_cheese(user),
+            'August': Transactions.dict_cheese(user),
+            'September': Transactions.dict_cheese(user),
+            'October': Transactions.dict_cheese(user),
+            'November': Transactions.dict_cheese(user),
+            'December': Transactions.dict_cheese(user),
         }
         for tran in trans:
             date = tran.date_posted
             x = General.month_translate(date.month)
-            t_dict[x][tran.cat] += tran.amount
+            try:
+                t_dict[x][tran.cat] += tran.amount
+            except KeyError: 
+                t_dict[x]["Other"] += tran.amount
             t_dict[x]['Total'] += tran.amount
         return t_dict
 
     def plot_gen(user, month_num, year):
         month_trans = Transactions.month_transactions(user, month_num, year)
 
-        sort_dict = Transactions.dict_cheese()
+        sort_dict = Transactions.dict_cheese(user)
         del sort_dict['Total']
         for trans in month_trans:
-            sort_dict[str(trans.cat)] += trans.amount
+            try:
+                sort_dict[str(trans.cat)] += trans.amount
+            except:
+                sort_dict["Other"] += trans.amount
         labels = [i for i in sort_dict]
         values = [i for x, i in sort_dict.items()]
         return labels, values
@@ -103,14 +133,17 @@ class Transactions(db.Model):
     def model_pie_gen(user, year):
         trans = user.trans
         ytd = []
-        sort_dict = Transactions.dict_cheese()
+        sort_dict = Transactions.dict_cheese(user)
         del sort_dict['Total']
         for each in trans:
             post = each.date_posted
             if post.year == year:
                 ytd.append(each)
         for each in ytd:
-            sort_dict[str(each.cat)] += each.amount
+            try:
+                sort_dict[str(trans.cat)] += each.amount
+            except:
+                sort_dict["Other"] += each.amount
         labels = [i for x, i in sort_dict.items()]
         values = [i for i in sort_dict]
         colors = [
@@ -188,7 +221,7 @@ class General():
     def demo_transactions(user):
         rando = [round((random.random())*100, 2)
                     for rando in range(1, random.randint(10, 20))]
-        cats = [i for i in Transactions.dict_cheese() if i != "Total"]
+        cats = [i for i in Transactions.dict_cheese(user) if i != "Total"]
         dplist = General.rando_dates(rando)
         index = 0
         for each in rando:

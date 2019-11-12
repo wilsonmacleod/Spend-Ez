@@ -69,37 +69,56 @@
               <div class="mb-2 mt-2"><small style="color:white">Click Here for Today</small>
             </a>
             <p></p>
-          <div class="mb-2 mt-2">
-
-        <hr class="sidebar-divider mt-2">
-        <h5> Submit Expense </h5>
-      </div>
-      <!-- Divider -->
- <form method="POST" action="">
-        {{ transaction_submit.hidden_tag() }}
-        {{ transaction_submit.csrf_token }}
-        <div class="form-group">
-          {% if transaction_submit.amount.errors %}
-            {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback">
-                {% for error in transaction_submit.amount.errors %}
+            <hr class="sidebar-divider mb-3 mt-2">
+            <div id="catEditFormField" class="hidden">
+                <h5> Edit a category</h5>
+                <hr class="sidebar-divider mb-3 mt-2">
+                <form method="POST" action="">
+                  {{ update_cats.hidden_tag() }}
+                  {{ update_cats.csrf_token }}
+                    {{ update_cats.category(class="form-control form-control-sm mt-3", id="et-category") }}
+                    <p></p>
+                    {{ update_cats.replacement(class="form-control form-control-sm", placeholder="New Category") }}
+                    <p></p>
+                    {{ update_cats.submit(class="btn btn-info") }}
+                    <button class="btn btn-warning" id="editCatExit">Exit</button>
+                    <hr class="sidebar-divider mb-3 mt-2">
+                    <small style="color: white">Transactions of deleted category will be temporarily classified as "Other"</small>
+              </form>
+            </div> 
+          <div id="cats">
+            <h5> Submit Expense </h5>
+            <!-- Divider -->
+            <form method="POST" action="">
+              {{ transaction_submit.hidden_tag() }}
+              {{ transaction_submit.csrf_token }}
+              <div class="form-group">
+                {% if transaction_submit.amount.errors %}
+                {{ transaction_submit.amount(class="form-control form-control-sm is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in transaction_submit.amount.errors %}
                   <span>{{ error }}</span>
-                {% endfor %}
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
+                {% endif %}
+                <p>
+                </p>
+                {{ transaction_submit.category }}
+          
+          <div class="mb-2">
+            <button id="catEditBTN" class="d-none d-sm-inline-block btn btn-xsm btn-info shadow">
+              Edit Categories
+            </button>
+                {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
               </div>
-          {% else %}
-              {{ transaction_submit.amount(class="form-control form-control-sm mt-3", placeholder="$00.00") }}
-          {% endif %}
-          <p>
-          </p>
-          {{ transaction_submit.category }}
-          {{ transaction_submit.date_posted(type="date", class = "form-control form-control-sm mt-3") }}
-        </div>
-        {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
-        <p></p>
-        {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
-  </form>
-      <hr class="sidebar-divider my-1 mt-3">
-      <button class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2 mt-2">Edit Your Categories</button>
+              {{ transaction_submit.note(class="form-control form-control-sm", placeholder="Notes (Optional)", rows="3") }}
+              <p></p>
+              {{ transaction_submit.submit(class="d-none d-sm-inline-block btn btn-sm btn-success shadow") }}
+            </form>
+          </div>
+      <hr class="sidebar-divider my-1 mt-3">    
       <div class="navigation">
         <div class="nav-item active mt-2">
           <a class="button d-none d-sm-inline-block btn btn-sm btn-secondary shadow ml-2"

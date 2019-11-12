@@ -2,8 +2,8 @@ from flask import render_template, url_for, flash, redirect, Blueprint, current_
 from flask_login import login_user, logout_user, current_user, login_required
 
 from ez import db
-from ez.main.forms import LoginForm, Expend, TimeTravel, UpdateBudget, EditTransaction
-from ez.models import User, Transactions, General
+from ez.main.forms import LoginForm, Expend, TimeTravel, UpdateBudget, EditTransaction, UpdateCategories
+from ez.models import User, Transactions, General, TransCategories
 
 main = Blueprint('main', __name__)
 
@@ -69,9 +69,16 @@ def landing(month_num, year):
 
     #FORMS
     time_travel = TimeTravel()  # Change view date/year
-    transaction_submit = Expend()  # Submit a New Transaction
     update_budget = UpdateBudget()  # Change your budget
-    edit_transaction = EditTransaction()
+    update_cats = UpdateCategories()
+
+    categories = Transactions.form_cat_choices(user)
+    categories = [x for x in categories if x != ("Total", "Total")]
+    update_cats.category.choices = [x for x in categories if x != ("Other", "Other")]
+    edit_transaction = EditTransaction() # Edit a Transaction
+    edit_transaction.category.choices = categories
+    transaction_submit = Expend()  # Submit a New Transaction
+    transaction_submit.category.choices = categories
 
     if time_travel.validate_on_submit():
         if time_travel.years != None and time_travel.months != None:
@@ -82,6 +89,16 @@ def landing(month_num, year):
     if update_budget.validate_on_submit():
         user.budget = update_budget.new_budget.data
         db.session.commit()
+        return redirect(url_for('main.landing', month_num=month_num, year=year))
+    
+    if update_cats.validate_on_submit():
+        new = update_cats.replacement.data.capitalize()
+        if not any(new == item[0] for item in categories):
+            TransCategories.change_category(user=user, 
+                                            old=update_cats.category.data,
+                                            new=new)
+        else:
+            pass
         return redirect(url_for('main.landing', month_num=month_num, year=year))
     
     if edit_transaction.validate_on_submit():  # Edit a Transaction
@@ -119,7 +136,7 @@ def landing(month_num, year):
     return render_template('index.html',
                            time_travel=time_travel, transaction_submit=transaction_submit,
                            update_budget=update_budget, edit_transaction=edit_transaction,
-                            modal_dict=modal_dict, month_num=month_num, 
+                           update_cats=update_cats, modal_dict=modal_dict, month_num=month_num, 
                             month=General.month_translate(month_num),
                            year=year, trans=sort_trans, budget=budget, ytd_spend=round(ytd_spend,2),
                            max_cat=max_cat, total_spend=total_spend,

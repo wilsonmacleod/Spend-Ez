@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FloatField, SelectField, DateField, RadioField
 from wtforms.validators import DataRequired, Length, Email
-
 from datetime import datetime
+
+from ez.models import Transactions
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -10,27 +11,18 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 class Expend(FlaskForm):
+
     amount = FloatField(validators=[DataRequired()])
-    category_choices = [('Food', 'Food'), ('Travel', 'Travel'), 
-                        ('Entertainment', 'Entertainment'), ('Education', 'Education'), 
-                        ('Transportation', 'Transportation'), 
-                        ('Personal', 'Personal'), ('Health', 'Health'), 
-                        ('Gift', 'Gift'), ('Other', 'Other')]
     category = RadioField(u'category', validators=[DataRequired()], 
-                            choices = category_choices, coerce=str, default = 'Category')
+                            choices = [], coerce=str, default = 'Category')
     date_posted = DateField(default=datetime.today)
     note = StringField()
     submit = SubmitField('Submit')
 
 class EditTransaction(FlaskForm):
     amount = FloatField(validators=[DataRequired()])
-    category_choices = [('Food', 'Food'), ('Travel', 'Travel'), 
-                        ('Entertainment', 'Entertainment'), ('Education', 'Education'), 
-                        ('Transportation', 'Transportation'), 
-                        ('Personal', 'Personal'), ('Health', 'Health'), 
-                        ('Gift', 'Gift'), ('Other', 'Other')]
     category = SelectField(u'category', validators=[DataRequired()], 
-                            choices = category_choices, coerce=str)
+                            choices = [], coerce=str)
     date_posted = DateField()
     note = StringField()
     et_submit = SubmitField('Submit')
@@ -55,4 +47,10 @@ class TimeTravel(FlaskForm):
 
 class UpdateBudget(FlaskForm):
     new_budget = FloatField(validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class UpdateCategories(FlaskForm):
+    category = SelectField(u'category', validators=[DataRequired()], 
+                            choices = [], coerce=str, default="Old Category")
+    replacement = StringField(validators=[DataRequired()])
     submit = SubmitField('Update')
