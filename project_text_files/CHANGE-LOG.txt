@@ -20,7 +20,6 @@
 		-List of % Spend per category for chosen year
 -Resized UI
 
-
 --v 1.6--
 
 -Added dynamically generating transactions 
@@ -43,3 +42,10 @@ for demo account login
 -UI and functionality change to "time travel" form"
 -UI tweaks and clean-up to update budget form
 -Slight HTML clean and CSS tweaks for overall appearance
+
+--v 1.9--
+
+-Refactored routes and models to actions
+-Added month+year specific/default budget functionality and tracking
+	-added tracking to ytd modal
+-html and css tweaks

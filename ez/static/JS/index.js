@@ -40,10 +40,6 @@ document.getElementById("revealButton").addEventListener("click", function () { 
   }
 
   currentBudge.addEventListener("click", function () { //functions triggered by user clicking on form value
-    toggleHidden = function () { //function to hide/reveal other form attributes 
-      document.getElementById("slidecontainer").toggleAttribute("hidden");
-      document.getElementById("buSubmit").toggleAttribute("hidden");
-    }
     toggleHidden();
     var inputField = document.createElement("input");
     inputField.type = "text";

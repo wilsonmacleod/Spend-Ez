@@ -47,22 +47,22 @@ DASHBOARD ROUTES
 @login_required
 def landing(month_num, year):
 
-    
-
     # Logged in user DB object/query
     user = User.query.filter_by(username=current_user.username).first()
-
-    # Transaction from this time for user
+    
+    # DETAILS
+    month_string = GeneralActions.month_translate(month_num)
+    budget, budget_type = GeneralActions.check_monthlybudget(user.id, month_num, year)
     trans = TransactionActions.month_transactions(user, month_num, year)
+    sort_trans = reversed(sorted((t for t in trans), key=lambda x: x.date_posted))
 
     #METRICS
-    sort_trans = reversed(sorted((t for t in trans), key=lambda x: x.date_posted))
     ytd_spend, max_cat = TransactionActions.ytd_transactions(user, year)  # YTD Metrics
-    budget = user.budget  # User stored budget
     total_spend = round(sum([x.amount for x in trans]), 2)  # User Transactions amounts
     budget_percent = (round((total_spend/budget)*100, 2))
-    modal_dict = TransactionActions.year_modal(user, year)
-
+    modal_dict = TransactionActions.year_modal_spend(user, year)
+    modal_budget_dict = TransactionActions.year_modal_budget(user.id, year)
+    
     #FIGURES
     labels, values = RenderFigures.main_plot_gen(user, month_num, year)  # Bar Plot Generator
     pie_labels, pie_values, colors = RenderFigures.model_pie_gen(user, year)  # Modal pie Generator
@@ -71,6 +71,7 @@ def landing(month_num, year):
     #FORMS
     time_travel = TimeTravel()  # Change view date/year
     update_budget = UpdateBudget()  # Change your budget
+    update_budget.options.choices.append(('Monthly', month_string))
     update_categories = UpdateCategories()
 
     categories = TransactionActions.list_cat_choices(user)
@@ -94,14 +95,18 @@ def landing(month_num, year):
             return redirect(url_for('main.landing', month_num=time_travel.months.data, year=time_travel.years.data))
 
     if update_budget.validate_on_submit():
-        user.budget = update_budget.new_budget.data
-        db.session.commit()
+        new_budget = update_budget.new_budget.data
+        if update_budget.options.data == 'Default':
+            GeneralActions.update_default_budget(user, new_budget)
+        else:
+            GeneralActions.update_monthly_budget(user.id, new_budget, month_num, year)
+        flash(f'Succesfully edited {update_budget.options.data} budget to ${int(update_budget.new_budget.data)}', 'info')
         return redirect(url_for('main.landing', month_num=month_num, year=year))
     
     if edit_transaction.validate_on_submit():  # Edit a Transaction
         try:
             TransactionActions.edit_trans(edit_transaction, user)
-            flash(f'Succesfully Edited ${edit_transaction.amount.data} {edit_transaction.category.data} Expense!', 'info')
+            flash(f'Succesfully edited ${edit_transaction.amount.data} {edit_transaction.category.data} expense!', 'info')
             return redirect(url_for('main.landing', month_num=month_num, year=year))
         except:
             """value error"""
@@ -109,12 +114,15 @@ def landing(month_num, year):
 
     if transaction_submit.validate_on_submit():  # Submit a Transaction
         TransactionActions.submit_trans(transaction_submit, user)
-        flash(f'Succesfully Submitted ${transaction_submit.amount.data} {transaction_submit.category.data} Expense!', 'success')
+        flash(f'Succesfully submitted ${transaction_submit.amount.data} {transaction_submit.category.data} expense!', 'success')
         return redirect(url_for('main.landing', month_num=month_num, year=year))
 
     return render_template(
                         'index.html',
                         logged_in_user = user.username, # current username
+                        month_num=month_num, 
+                        month=month_string,
+                        budget_type=budget_type,
                         #FORMS
                         time_travel=time_travel,  
                         transaction_submit=transaction_submit,
@@ -123,8 +131,7 @@ def landing(month_num, year):
                         update_cats=update_categories, 
                         #METRICS
                         modal_dict=modal_dict, 
-                        month_num=month_num, 
-                        month=GeneralActions.month_translate(month_num),
+                        modal_budget_dict=modal_budget_dict,
                         year=year, 
                         trans=sort_trans, 
                         budget=budget, 

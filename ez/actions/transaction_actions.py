@@ -86,7 +86,7 @@ class TransactionActions():
         max_cat = max(sort_dict.items(), key=lambda k: k[1])
         return round(sum([x.amount for x in ytd]), 2), max_cat
 
-    def year_modal(user, year):
+    def year_modal_spend(user, year):
         trans = user.trans
         t_dict = {
             'January': TransactionActions.dict_hack(user),
@@ -112,3 +112,20 @@ class TransactionActions():
                     t_dict[x]["Other"] += tran.amount
                 t_dict[x]['Total'] += tran.amount
         return t_dict
+
+    def year_modal_budget(user_id, year):
+        year_dict = {
+            'January': 1,
+            'February': 2,
+            'March': 3,
+            'April': 4,
+            'May': 5,
+            'June': 6,
+            'July': 7,
+            'August': 8,
+            'September': 9,
+            'October': 10,
+            'November': 11,
+            'December': 12
+            }
+        return { key:GeneralActions.check_monthlybudget(user_id, year_dict[key], year) for key in year_dict}  

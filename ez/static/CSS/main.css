@@ -5257,16 +5257,14 @@ a:focus{
 }
 .budgetNum {
     margin-top: 10px;
-    cursor: pointer;
+    font-weight: bolder;
   }
-.budgetNum:hover{
-    font-weight: 700;
-}
+
 .bN-field{
     padding:.50rem .50rem;
     background-color:#f8f9fc;
     border-left: 3px solid #4e73df;
-    opacity:.8;
+    opacity:1;
 }
 .bN-field:hover{
     opacity:1;
@@ -5394,7 +5392,7 @@ input[type="range"] {
     position: absolute;
     left: 0;
     right: 0;
-    top: 250px;
+    top: 25px;
     margin-left: auto;
     margin-right: auto;
     width: 650px;
@@ -5427,6 +5425,7 @@ input[type="range"] {
     height: auto;
     max-width: 100%;
     padding: 2px;
+    margin-left: -4%;
 }
 .acc{
     font-size:1.5em;
@@ -5435,6 +5434,7 @@ input[type="range"] {
     height: auto;
     min-height: 43px;
     max-width: 100%;
+    margin-left: -4%;
 }
 .acc:hover{
     background-color: #D3D3D3;

@@ -11,7 +11,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 class Expend(FlaskForm):
-
     amount = FloatField(validators=[DataRequired()])
     category = RadioField(u'category', validators=[DataRequired()], 
                             choices = [], coerce=str, default = 'Category')
@@ -29,7 +28,6 @@ class EditTransaction(FlaskForm):
     trans_id = StringField()
 
 class TimeTravel(FlaskForm):
-
     month_choices = [(None, 'Month'), ('1', 'January'), ('2', 'February'), ('3', 'March'), 
                 ('4', 'April'), ('5', 'May'), ('6', 'June'), 
                 ('7', 'July'), ('8', 'August'), 
@@ -47,6 +45,8 @@ class TimeTravel(FlaskForm):
 
 class UpdateBudget(FlaskForm):
     new_budget = FloatField(validators=[DataRequired()])
+    options = RadioField(u'Default', validators=[DataRequired()], 
+                            choices = [('Default', 'Default')], coerce=str)
     submit = SubmitField('Update')
 
 class UpdateCategories(FlaskForm):

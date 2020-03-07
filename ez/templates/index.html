@@ -178,6 +178,7 @@
             <div class="d-sm-flex float-items-center justify-content-between mb-2">
               <div>Hi {{ logged_in_user }}, a look at your:<br>
               <h1 class="h3 mt-1 text-gray-800"><strong>{{ month }} {{ year }}</strong></h1>
+              <span>This {{ month }} you're on your <strong>{{ budget_type }} </strong> budget...</span>
             </div>
             </div>
             <div class="col-sm-3 sm-2">
@@ -207,14 +208,12 @@
 
                       {{ update_budget.hidden_tag() }}
                       {{ update_budget.new_budget(class="hidden", id="budget-form") }}
-                      </a>
-
+        
                       <div id="slidecontainer" class="slidecontainer form-inline">
                         <div class="row mb-2">
                           <input class="slider ml-5" title="" type="range" id="budget-range" name="Adjust Budget"
                             value={{ budget }} min="150" max={{ budget+1000 }}>
                           <div class="inline-block">
-                            <a href="{{ url_for('main.reload')}}" type="btn" class="close ml-2">&times;</a>
                           </div>
                         </div>
                       </div>
@@ -222,8 +221,10 @@
                         <div class="col-auto ml-5">
                           <div class="bN-field"><a class="budgetNum" id="budget_qty"></a></div>
                         </div>
-                        <div class="ml-2">
+                        <div class="ml-1">
+                          <div>{{ update_budget.options(class="budgetNum") }}</div>
                           {{ update_budget.submit(class="btn btn-primary btn-sm mb-2 mt-1", id="buSubmit") }}
+                          <a href="{{ url_for('main.reload')}}" type="btn" class="close ml-2">&times;</a>
                         </div>
                       </div>
                     </form>
@@ -424,15 +425,19 @@
                           <div class="mb-2"><strong>
                               <h3 float="center"><a title="{{ user }} Spending {{ year }}">{{ year }} Summary</a></h3>
                             </strong></div>
-                          <!--pie chart of year breakdown by category?-->
                           <div class="row">
                             <div class="col">
                               {% for m, t in modal_dict.items() %}
                               <div class="acc"><a class="text-m font-weight-bold text-green-800 text-uppercase ml-3"
                                   href="#"> {{ m }}
-                                  {{ year }}</a> <text class="text-m font-weight-bold text-800 text-uppercase">Spend:
-                                  {{ modal_dict[m]["Total"]|round(2) }}</text> </div>
+                                  {{ year }}</a> 
+                                  <text class="text-m font-weight-bold text-800 text-uppercase">
+                                  Spend: {{ modal_dict[m]["Total"]|round(2) }}
+                                </text> 
+                              </div>
                               <div class="con">
+                               <strong>Budget: {{ modal_budget_dict[m][0] }}</strong><br>
+                               <strong>Spend: {{ modal_dict[m]["Total"]|round(2) }}</strong>
                                 <table class="table">
                                   <thead>
                                     <strong>
